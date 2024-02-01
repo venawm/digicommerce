@@ -18,7 +18,12 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       minLength: 5,
-      maxLength: 20,
+      maxLength: 40,
+    },
+    number: {
+      type: String,
+      required: [true, "Number is required"],
+      minLength: 10,
     },
     password: String,
     role: {
@@ -33,7 +38,10 @@ const userSchema = new mongoose.Schema(
         default: () => new Date(Date.now() + 10 * 60 * 1000),
       },
     },
-    verified: Boolean,
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
