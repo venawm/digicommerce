@@ -1,11 +1,11 @@
 "use client";
+// Import missing dependencies
 import React from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
 const TopNav = () => {
-  const { data, status, loading } = useSession();
-  console.log(data, status);
+  const { data, status } = useSession();
 
   return (
     <nav className="bg-primary h-16 w-screen flex items-center justify-between px-10 shadow-sm">
@@ -14,17 +14,20 @@ const TopNav = () => {
       </Link>
       {status === "authenticated" ? (
         <>
-          <Link href="/login" className="text-secondary font-bold">
-            <p className="px-4 py-2 transition-all hover:bg-dark hover:text-white rounded text-center cursor-pointer">
-              {data.user.name}
-            </p>
-          </Link>
-
+          <p className="text-secondary font-bold px-4 py-2 transition-all hover:bg-dark hover:text-white rounded text-center cursor-pointer">
+            {data.user.name}
+          </p>
           <p
             className="text-secondary font-bold px-4 py-2 transition-all hover:bg-dark hover:text-white rounded text-center cursor-pointer"
             onClick={() => signOut({ callbackUrl: "/login" })}
           >
             Logout
+          </p>
+        </>
+      ) : status === "loading" ? (
+        <>
+          <p className="text-secondary font-bold px-4 py-2 rounded text-center cursor-not-allowed">
+            Loading...
           </p>
         </>
       ) : (
