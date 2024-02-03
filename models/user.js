@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema(
     },
     number: {
       type: String,
-      required: [true, "Number is required"],
       minLength: 10,
     },
     password: String,

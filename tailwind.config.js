@@ -13,8 +13,9 @@ module.exports = {
     colors: {
       primary: "#F5F7F8",
       dark: "#F5F7F8",
-      secondary: "#FC6736",
+      secondary: "#F85606",
       secondaryLight: "#ff806c",
+      secondaryDark: "#DF4D05",
     },
   },
   plugins: [],

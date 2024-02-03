@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
       setLoading(false);
     } else {
       toast.success("Logged in sucessfully");
-      router.push("/");
+      router.push(callbackUrl);
     }
 
     try {
@@ -37,6 +37,9 @@ const Login = () => {
   };
 
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   return (
     <main className="flex h-screen">
@@ -82,10 +85,31 @@ const Login = () => {
               {loading ? "Loggin In..." : "Login"}
             </button>
           </form>
-          <p>or</p>
-          <Link href="/login" className=" text-secondary">
-            Sign Up
-          </Link>
+          <div className="flex flex-col gap-2 mt-4 justify-center items-center">
+            <p>or</p>
+
+            <button
+              class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-secondary rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+              onClick={() => {
+                signIn("google", { callbackUrl });
+              }}
+            >
+              <Image
+                class="w-6 h-6"
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                width={10}
+                height={10}
+                loading="lazy"
+                alt="google logo"
+              ></Image>
+              <span>Login with Google</span>
+            </button>
+            <p>or</p>
+
+            <Link href="/login" className=" text-secondary">
+              Sign Up
+            </Link>
+          </div>
         </div>
       </div>
     </main>
