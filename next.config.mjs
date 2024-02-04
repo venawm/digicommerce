@@ -9,6 +9,9 @@ const nextConfig = {
     GOOGLE_CLIENT_ID: config.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: config.GOOGLE_CLIENT_SECRET,
   },
+  images: {
+    domains: ["lh3.googleusercontent.com"],
+  },
 };
 
 export default nextConfig;
