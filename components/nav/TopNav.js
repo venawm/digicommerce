@@ -57,7 +57,9 @@ const TopNav = () => {
         </>
       )}
       <div className=" max-w-screen-2xl mx-auto px-4 flex items-center h-full justify-between">
-        <h1 className="text-3xl font-bold text-primary">Digicommerce</h1>
+        <Link className="text-3xl font-bold text-primary" href="/">
+          Digicommerce
+        </Link>
         <form className="hidden lg:inline-flex w-1/2  ">
           <label
             for="default-search"

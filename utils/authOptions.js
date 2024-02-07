@@ -62,6 +62,7 @@ export const authOptions = {
       return token;
     },
     session: async ({ session, token }) => {
+      dbConnect();
       session.user = token.user;
       return session;
     },

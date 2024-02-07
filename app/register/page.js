@@ -58,7 +58,7 @@ const Register = () => {
           alt="Ecommerce Image"
         />
       </div>
-      <div className="w-1/3  h-full flex justify-center items-center p-8 bg-gray-100 sm:w-full">
+      <div className="w-1/3  h-full flex justify-center items-center p-8 sm:w-full">
         <div className=" flex flex-col justify-center items-center">
           <div>
             <h1 className="text-4xl font-bold mb-4">
