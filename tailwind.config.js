@@ -16,7 +16,7 @@ module.exports = {
         secondary: "#F85606",
         secondaryLight: "#ff806c",
         secondaryDark: "#DF4D05",
-        greyCustom: "#F5F7F8",
+        blueCustom: "#0C2D57",
       },
     },
     screens: {
