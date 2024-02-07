@@ -52,7 +52,7 @@ const Login = () => {
           alt="Ecommerce Image"
         />
       </div>
-      <div className="w-1/3  h-full flex justify-center items-center p-8 bg-gray-100 sm:w-full">
+      <div className="w-1/3  h-full flex justify-center items-center p-8 sm:w-full">
         <div className=" flex flex-col justify-center items-center">
           <div>
             <h1 className="text-4xl font-bold mb-4">
@@ -89,7 +89,7 @@ const Login = () => {
             <p>or</p>
 
             <button
-              class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-secondary rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+              class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-secondary rounded-lg text-slate-900  hover:shadow transition duration-150"
               onClick={() => {
                 signIn("google", { callbackUrl });
               }}
@@ -106,7 +106,7 @@ const Login = () => {
             </button>
             <p>or</p>
 
-            <Link href="/login" className=" text-secondary">
+            <Link href="/register" className=" text-secondary">
               Sign Up
             </Link>
           </div>

@@ -9,7 +9,16 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#F5F7F8",
+        dark: "#F5F7F8",
+        secondary: "#F85606",
+        secondaryLight: "#ff806c",
+        secondaryDark: "#DF4D05",
+        greyCustom: "#F5F7F8",
+      },
+    },
     screens: {
       xsm: "200px",
       sm: "576px",
@@ -20,13 +29,6 @@ module.exports = {
 
       lg: "1440px",
       // => @media (min-width: 1440px) { ... }
-    },
-    colors: {
-      primary: "#F5F7F8",
-      dark: "#F5F7F8",
-      secondary: "#F85606",
-      secondaryLight: "#ff806c",
-      secondaryDark: "#DF4D05",
     },
   },
   plugins: [],

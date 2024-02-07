@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="xsm:px-6 lg:px-28 h-[200vh] ">
+    <div className=" ">
       <h1>home</h1>
     </div>
   );
