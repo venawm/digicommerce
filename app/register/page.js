@@ -1,7 +1,8 @@
 "use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -11,14 +12,46 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [number, setNumber] = useState("");
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const router = useRouter();
 
+  // Regex patterns for validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+  const numberRegex = /^\d{10}$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setErrors({}); // Clear previous errors
+
+    // Validation checks
+    let newErrors = {};
+    if (!emailRegex.test(email)) {
+      newErrors.email = "Invalid email address";
+    }
+    if (!passwordRegex.test(password)) {
+      newErrors.password =
+        "Password must be at least 8 characters long and contain at least one digit, one lowercase and one uppercase letter";
+    }
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+    if (!numberRegex.test(number)) {
+      newErrors.number = "Number must be 10 digits long";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setLoading(false);
+      console.log(newErrors);
+      return;
+    }
+
+    // If all validations pass, proceed with registration
     try {
-      setLoading(true);
       const res = await fetch(`${process.env.API}/register`, {
         method: "POST",
         headers: {
@@ -35,14 +68,13 @@ const Register = () => {
       if (!res.ok) {
         console.log(data);
         toast.error(data.error);
-        setLoading(flase);
       } else {
-        toast.success("Account Created Sucessfully");
-        setLoading(false);
+        toast.success("Account Created Successfully");
         router.push("/");
       }
     } catch (error) {
       console.log(error);
+    } finally {
       setLoading(false);
     }
   };
@@ -78,7 +110,7 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-
+            {errors.email && <p className="text-red-500">{errors.email}</p>}
             <input
               type="email"
               className="border-b border-secondary py-2 px-4 focus:outline-none focus:border-primary w-full"
@@ -86,6 +118,7 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {errors.number && <p className="text-red-500">{errors.number}</p>}
             <input
               type="text"
               className="border-b border-secondary py-2 px-4 focus:outline-none focus:border-primary w-full"
@@ -93,6 +126,9 @@ const Register = () => {
               value={number}
               onChange={(e) => setNumber(e.target.value)}
             />
+            {errors.password && (
+              <p className="text-red-500">{errors.password}</p>
+            )}
             <input
               type="password"
               className="border-b border-secondary py-2 px-4 focus:outline-none focus:border-primary w-full"
@@ -100,6 +136,9 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {errors.confirmPassword && (
+              <p className="text-red-500">{errors.confirmPassword}</p>
+            )}
             <input
               type="password"
               className="border-b border-secondary py-2 px-4 focus:outline-none focus:border-primary w-full"
