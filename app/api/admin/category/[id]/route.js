@@ -15,6 +15,7 @@ export async function PUT(req, context) {
     );
     return NextResponse.json(updatingCategory);
   } catch (error) {
+    console.log(error);
     NextResponse.json(error.message, { status: 500 });
   }
 }

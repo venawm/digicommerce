@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .admin-button {
-  @apply flex items-center p-2 text-gray-900 rounded-lg dark:text-white  dark:hover:bg-blue-900  hover:cursor-pointer;
+  @apply flex items-center p-2 text-white rounded-md hover:bg-white hover:text-slate-600 hover:cursor-pointer;
 }

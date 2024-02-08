@@ -70,7 +70,7 @@ const Register = () => {
         toast.error(data.error);
       } else {
         toast.success("Account Created Successfully");
-        router.push("/");
+        router.push("/login");
       }
     } catch (error) {
       console.log(error);

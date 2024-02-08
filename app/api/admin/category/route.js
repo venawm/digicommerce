@@ -5,12 +5,13 @@ import slugify from "slugify";
 
 export async function POST(req) {
   await dbConnect();
-  const body = req.json();
+  const body = await req.json();
   const { name } = body;
   try {
     const category = await Category.create({ name, slug: slugify(name) });
     return NextResponse.json(category);
   } catch (error) {
+    console.log(error);
     return NextResponse.json(error.message, { status: 500 });
   }
 }

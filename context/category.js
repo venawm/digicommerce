@@ -12,7 +12,7 @@ export const CategoryProvider = ({ children }) => {
   //   for fetching all categories
   const [categories, setCategories] = useState([]);
   //   for update and delete
-  const [updatingCategory, setUpdatingCategory] = useState(null);
+  const [updatingCategory, setUpdatingCategory] = useState();
 
   //   to create a category
   const createCategory = async () => {
@@ -24,16 +24,15 @@ export const CategoryProvider = ({ children }) => {
         },
         body: JSON.stringify({ name }),
       });
+      const data = await response.json();
       if (!response.ok) {
-        const data = response.json;
-        toast.error(data.error);
+        toast.error(data);
       } else {
         toast.success("Category Created");
         setName("");
         setCategories([data, ...categories]);
       }
     } catch (error) {
-      console.log(error);
       toast.error("An error occured try again");
     }
   };
@@ -45,7 +44,7 @@ export const CategoryProvider = ({ children }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        toast.error(data.error);
+        toast.error(data);
       } else {
         setCategories(data);
       }
@@ -55,65 +54,63 @@ export const CategoryProvider = ({ children }) => {
     }
   };
 
-  //   Updating the categories
   const updateCategory = async () => {
     try {
       const response = await fetch(
-        `${process.env.API}/admin/category.${updatingCategory._id}`,
+        `${process.env.API}/admin/category/${updatingCategory._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name }),
+          body: JSON.stringify(updatingCategory),
         }
       );
-      const data = await response.json();
       if (!response.ok) {
-        toast.error(data.error);
-      } else {
-        toast.success("Category updated");
-        setUpdatingCategory(null);
-        setCategories(
-          categories.map((category) => {
-            category._id === updateCategory._id ? data : category;
-          })
-        );
-        setUpdatingCategory(null);
+        throw new Error("Network response was not ok");
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("An error occured try again");
+      const updatedCategory = await response.json();
+      // Update the categories state with the updated category
+      setCategories((prevCategories) =>
+        prevCategories.map((c) =>
+          c._id === updatedCategory._id ? updatedCategory : c
+        )
+      );
+      // Clear the categoryUpdate state
+      setUpdatingCategory(null);
+      toast.success("Category updated successfully");
+    } catch (err) {
+      console.log("err => ", err);
+      toast.error("An error occurred while updating the category");
     }
   };
-
   //   Deleting the categories
+  // context/category
+  // ...
   const deleteCategory = async () => {
     try {
       const response = await fetch(
-        `${process.env.API}/admin/category.${updatingCategory._id}`,
+        `${process.env.API}/admin/category/${updatingCategory._id}`,
         {
           method: "DELETE",
         }
       );
-      const data = await response.json();
-
       if (!response.ok) {
-        toast.error(data.error);
-      } else {
-        toast.success("Category Deleted");
-        setCategories(
-          categories.filter((category) => {
-            category._id !== updatingCategory._id;
-          })
-        );
-        setUpdatingCategory(null);
+        throw new Error("Network response was not ok");
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("An error occured try again");
+      const deletedCategory = await response.json();
+      // Category deleted successfully, now update the categories state
+      setCategories((prevCategories) =>
+        prevCategories.filter((c) => c._id !== deletedCategory._id)
+      );
+      setUpdatingCategory(null);
+      toast.success("Category deleted successfully");
+    } catch (err) {
+      console.log("err => ", err);
+      toast.error("An error occurred while deleting the category");
     }
   };
+  // Clear the categoryUpdate state
 
   //   Return the context
   return (
