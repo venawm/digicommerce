@@ -25,7 +25,7 @@ const Category = () => {
     console.log(categories);
   }, []);
   return (
-    <div className=" w-full flex  items-center flex-col mt-4">
+    <div className=" w-full flex  flex-col">
       <div className=" w-[90%] flex flex-col gap-4 ">
         <p className=" text-2xl font-bold text-slate-800">Create Categories</p>
         <input
@@ -40,11 +40,11 @@ const Category = () => {
                 })
               : setName(e.target.value)
           }
-          className="border-b border-secondary py-2 px-4 focus:outline-none focus:border-primary w-2/3"
+          className="border rounded-lg border-slate-400 py-2 px-4 focus:outline-none focus:border-primary w-2/3"
         />
         <div className="flex gap-4">
           <button
-            className={`bg-secondary font-bold w-1/6 text-primary py-2 px-4 rounded-full hover:bg-secondaryLight focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
+            className={`bg-secondary font-bold w-[10rem] text-primary py-2 px-4 rounded-full hover:bg-slate-700 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
             onClick={(e) => {
               e.preventDefault();
               updatingCategory ? updateCategory() : createCategory();

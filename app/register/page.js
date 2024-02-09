@@ -148,7 +148,7 @@ const Register = () => {
             />
             <button
               type="submit"
-              className="bg-secondary font-bold text-primary py-2 px-4 rounded-full hover:bg-secondaryLight focus:outline-none focus:shadow-outline-primary"
+              className="bg-secondary font-bold text-primary py-2 px-4 rounded-full hover:bg-slate-600  focus:outline-none focus:shadow-outline-primary"
               disabled={loading}
             >
               {loading ? "Submitting..." : "Submit"}
