@@ -7,28 +7,30 @@ export const TagContext = createContext();
 
 export const TagProvider = ({ children }) => {
   const [name, setName] = useState("");
-  const [parent, setParent] = useState("");
+  const [parentCategory, setParentCategory] = useState("");
   const [tags, setTags] = useState([]);
   const [updatingTag, setUpdatingTag] = useState(null);
 
   // Create Tag
   const createTag = async () => {
     try {
-      const response = await fetch(`${process.env.API}/ admin / tag`, {
+      const response = await fetch(`${process.env.API}/admin/tag`, {
         method: "POST",
         headers: { "Content-type": "application/json " },
-        body: JSON.stringify({ name, parent: parent }),
+        body: JSON.stringify({ name, parentCategory }),
       });
       const data = await response.json();
+
       if (!response.ok) {
         toast.error(data);
       } else {
         toast.success("Tag created");
         setName("");
-        setParent("");
+        // setParentCategory("");
         setTags({ data, ...tags });
       }
     } catch (error) {
+      console.log(error);
       toast.error("Error creating tag");
     }
   };
@@ -48,6 +50,7 @@ export const TagProvider = ({ children }) => {
         setTags(data);
       }
     } catch (error) {
+      console.log(error);
       toast.error("Error creating tag");
     }
   };
@@ -109,8 +112,8 @@ export const TagProvider = ({ children }) => {
       value={{
         name,
         setName,
-        parent,
-        setParent,
+        parentCategory,
+        setParentCategory,
         tags,
         setTags,
         updatingTag,

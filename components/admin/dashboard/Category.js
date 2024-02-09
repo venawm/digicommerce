@@ -26,7 +26,7 @@ const Category = () => {
   }, []);
   return (
     <div className=" w-full flex  flex-col">
-      <div className=" w-[90%] flex flex-col gap-4 ">
+      <div className=" w-full flex flex-col gap-4 ">
         <p className=" text-2xl font-bold text-slate-800">Create Categories</p>
         <input
           type="text"

@@ -16,7 +16,7 @@ const tagSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    parent: {
+    parentCategory: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,
