@@ -22,7 +22,6 @@ const Category = () => {
 
   useEffect(() => {
     fetchCategory();
-    console.log(categories);
   }, []);
   return (
     <div className=" w-full flex  flex-col">

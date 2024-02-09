@@ -1,5 +1,4 @@
 "use client";
-
 import { createContext, useState, useContext } from "react";
 import toast from "react-hot-toast";
 
@@ -11,14 +10,17 @@ export const TagProvider = ({ children }) => {
   const [tags, setTags] = useState([]);
   const [updatingTag, setUpdatingTag] = useState(null);
 
-  // Create Tag
   const createTag = async () => {
     try {
+      console.log(name, parentCategory);
       const response = await fetch(`${process.env.API}/admin/tag`, {
         method: "POST",
-        headers: { "Content-type": "application/json " },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ name, parentCategory }),
       });
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -27,82 +29,113 @@ export const TagProvider = ({ children }) => {
         toast.success("Tag created");
         setName("");
         // setParentCategory("");
-        setTags({ data, ...tags });
+        setTags([data, ...tags]);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       toast.error("Error creating tag");
     }
   };
 
-  // Fetch Tags
   const fetchTags = async () => {
     try {
-      const response = await fetch(`${process.env.API}/ admin / tag`, {
+      const response = await fetch(`${process.env.API}/admin/tag`, {
         method: "GET",
-        headers: { "Content-type": "application/json " },
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       const data = await response.json();
+
       if (!response.ok) {
         toast.error(data);
       } else {
         setTags(data);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       toast.error("Error creating tag");
     }
   };
 
-  // Update Tag
-  const updateTag = async () => {
+  const fetchTagsPublic = async () => {
     try {
-      const response = await fetch(
-        `${process.env.API}/ admin/tag${updatingTag?._id}`,
-        {
-          method: "PUT",
-          headers: { "Content-type": "application/json " },
-          body: JSON.stringify(updatingTag),
-        }
-      );
+      const response = await fetch(`${process.env.API}/tags`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
       const data = await response.json();
 
       if (!response.ok) {
         toast.error(data);
       } else {
-        toast.success("Tag Updated");
-        setUpdatingTag(null);
-        setParent("");
-        setTags((prev) => prev?.map((e) => (tags._id == data._id ? data : t)));
+        setTags(data);
       }
-    } catch (error) {
+    } catch (err) {
+      console.log(err);
       toast.error("Error creating tag");
     }
   };
 
-  // Delete Tag
+  const updateTag = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.API}/admin/tag/${updatingTag?._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatingTag),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data);
+      } else {
+        toast.success("Tag updated");
+        setUpdatingTag(null);
+        setParentCategory("");
+        setTags((prevTags) =>
+          prevTags?.map((t) => (t._id === data._id ? data : t))
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Error creating tag");
+    }
+  };
+
   const deleteTag = async () => {
     try {
       const response = await fetch(
         `${process.env.API}/admin/tag/${updatingTag?._id}`,
         {
           method: "DELETE",
-          headers: { "Content-type": "application/json " },
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
+
       const data = await response.json();
+
       if (!response.ok) {
         toast.error(data);
       } else {
         toast.success("Tag deleted");
         setUpdatingTag(null);
-        setParent("");
-        setTags((prev) =>
-          prev?.filter((e) => (tags._id !== data._id ? data : t))
-        );
+        setParentCategory("");
+        setTags((prevTags) => prevTags?.filter((t) => t._id !== data._id));
       }
-    } catch (error) {
+    } catch (err) {
+      console.log(err);
       toast.error("Error creating tag");
     }
   };
@@ -120,6 +153,7 @@ export const TagProvider = ({ children }) => {
         setUpdatingTag,
         createTag,
         fetchTags,
+        fetchTagsPublic,
         updateTag,
         deleteTag,
       }}
