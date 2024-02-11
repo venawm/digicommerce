@@ -8,7 +8,7 @@ const AdminNav = ({ dashboardItem, setDashboardItem }) => {
   console.log(dashboardItem);
   return (
     <nav>
-      <aside className="z-40 lg:w-[15vw] h-[85vh]  lg:ml-[0rem] mt-2 sm:ml-[-1rem] sm:w-[25vw] ">
+      <aside className="fixed z-40 lg:w-[15vw] h-[85vh]  lg:ml-[0rem] mt-2 sm:ml-[-1rem] sm:w-[13rem] ">
         <div className="h-full px-4 py-2 overflow-y-auto bg-secondary rounded-md">
           <ul className=" mt-2 space-y-2 font-medium flex flex-col gap-2">
             <li>

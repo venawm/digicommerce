@@ -22,6 +22,7 @@ const Category = () => {
 
   useEffect(() => {
     fetchCategory();
+    console.log(categories);
   }, []);
   return (
     <div className=" w-full flex  flex-col">
@@ -82,13 +83,13 @@ const Category = () => {
             </div>
           )}
         </div>
-        <div className="flex flex-col mt-8">
+        <div className="flex flex-col gap-2 mt-8">
           <p className=" text-2xl font-bold text-slate-800">All Categories</p>
           <div className=" flex gap-2 flex-wrap">
             {categories?.map((c) => {
               return (
                 <button
-                  className=" min-w-20 bg-slate-50 shadow-sm border-secondary h-8 rounded-md p-2 flex justify-center items-center hover:bg-slate-100"
+                  className=" w-[20%]  bg-slate-100 shadow-sm border-slate-200 border h-12 rounded-md p-2 flex justify-center items-center hover:bg-slate-200 text-md font-bold text-slate-800"
                   onClick={() => {
                     setUpdatingCategory(c);
                   }}

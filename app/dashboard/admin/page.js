@@ -23,7 +23,9 @@ const page = () => {
         dashboardItem={dashboardItem}
         setDashboardItem={setDashboardItem}
       />
-      <div className="mt-2 w-full">{renderer()}</div>
+      <div className="mt-2 lg:ml-[14rem] w-full sm:ml-[10rem]">
+        {renderer()}
+      </div>
     </main>
   );
 };
