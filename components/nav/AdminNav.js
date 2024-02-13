@@ -57,6 +57,21 @@ const AdminNav = ({ dashboardItem, setDashboardItem }) => {
                 <span className="ms-3">Tags</span>
               </p>
             </li>
+            <li>
+              <p
+                className={`flex items-center p-2 rounded-md hover:bg-white hover:text-slate-600 hover:cursor-pointer ${
+                  dashboardItem === "3"
+                    ? "text-slate-600 bg-white "
+                    : " text-white"
+                }`}
+                onClick={() => {
+                  setDashboardItem("3");
+                }}
+              >
+                <LiaTagSolid className="text-2xl " />
+                <span className="ms-3">Create Products</span>
+              </p>
+            </li>
           </ul>
         </div>
       </aside>

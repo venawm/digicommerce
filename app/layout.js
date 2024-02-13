@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { SessionProvider } from "@/utils/sessionProvider";
 import { CategoryProvider } from "@/context/category";
 import { TagProvider } from "@/context/tag";
+import { ProductProvider } from "@/context/product";
 
 export const metadata = {
   title: "Digicommerce",
@@ -18,11 +19,13 @@ export default function RootLayout({ children }) {
       <SessionProvider>
         <CategoryProvider>
           <TagProvider>
-            <body>
-              <TopNav />
-              <Toaster position="top-center" />
-              <div className="xsm:px-6 lg:px-10 mt-20">{children}</div>
-            </body>
+            <ProductProvider>
+              <body>
+                <TopNav />
+                <Toaster position="top-center" />
+                <div className="xsm:px-6 lg:px-10 mt-20">{children}</div>
+              </body>
+            </ProductProvider>
           </TagProvider>
         </CategoryProvider>
       </SessionProvider>

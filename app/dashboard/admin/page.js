@@ -3,6 +3,7 @@ import AdminNav from "@/components/nav/AdminNav";
 import React, { useState } from "react";
 import Category from "@/components/admin/dashboard/Category";
 import Tag from "@/components/admin/dashboard/Tag";
+import CreateProduct from "@/components/admin/dashboard/CreateProduct";
 
 const page = () => {
   const [dashboardItem, setDashboardItem] = useState("0");
@@ -14,6 +15,8 @@ const page = () => {
       return <Category />;
     } else if (dashboardItem === "2") {
       return <Tag />;
+    } else if (dashboardItem === "3") {
+      return <CreateProduct />;
     }
   };
 
