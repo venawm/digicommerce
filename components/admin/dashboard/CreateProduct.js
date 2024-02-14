@@ -1,9 +1,11 @@
 "Use Client";
 
 import React, { useEffect } from "react";
+import Image from "next/image";
 import { useProduct } from "@/context/product";
 import { useCategory } from "@/context/category";
 import { useTag } from "@/context/tag";
+import { ImCross } from "react-icons/im";
 
 const CreateProduct = () => {
   const {
@@ -21,6 +23,11 @@ const CreateProduct = () => {
   } = useProduct();
   const { categories, fetchCategory } = useCategory();
   const { tags, fetchTags } = useTag();
+
+  // Image Preview
+  const imagePreviewes = updatingProduct
+    ? updatingProduct?.images ?? []
+    : product?.images ?? [];
 
   useEffect(() => {
     fetchCategory();
@@ -206,6 +213,43 @@ const CreateProduct = () => {
                 <label for={tag?._id}>{tag?.name}</label>
               </div>
             ))}
+        </div>
+        <div>
+          <label
+            className={`bg-secondary font-bold w-[15rem] text-primary py-2 px-4 rounded-full hover:bg-slate-700 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
+          >
+            {" "}
+            {uploading ? "Processing" : "Upload"} Images
+            <input
+              type="file"
+              multiple
+              hidden
+              accept="images/*"
+              onChange={uploadImages}
+              disabled={uploading}
+            />
+          </label>
+        </div>
+        <div className=" mt-4 flex gap-8 w-full">
+          {imagePreviewes?.map((img) => {
+            return (
+              <div
+                key={img.public_id}
+                className=" w-20 h-20 relative bg-cover flex"
+              >
+                <Image src={img?.secure_url} fill className=" rounded-md" />
+                <br />
+                <div className=" cursor-pointer relative top-[-15%] right-[-100%]">
+                  <ImCross
+                    className=" text-slate-800 hover:text-red-600"
+                    onClick={() => {
+                      deleteImage(img?.public_id);
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
       {JSON.stringify(product)}
