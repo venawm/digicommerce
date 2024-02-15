@@ -5,8 +5,9 @@ import queryString from "query-string";
 
 export async function GET(req) {
   await dbConnect();
-  const searchParams = queryString.parse(req.url).query;
-  const { page } = searchParams || {};
+  const searchParams = queryString.parse(req.url);
+  const page = searchParams["http://localhost:3000/api/product?page"];
+  console.log(page);
   const pageSize = 10;
 
   try {

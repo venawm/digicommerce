@@ -125,7 +125,7 @@ export const ProductProvider = ({ children }) => {
       if (!response.ok) {
         toast.error(data.error);
       } else {
-        toast("Products Created");
+        toast.success("Products Created");
       }
     } catch (error) {
       console.log(error);

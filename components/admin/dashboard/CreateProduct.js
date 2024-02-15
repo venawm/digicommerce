@@ -252,7 +252,35 @@ const CreateProduct = () => {
           })}
         </div>
       </div>
-      {JSON.stringify(product)}
+      <div>
+        <button
+          className={`${"he"}`}
+          onClick={(e) => {
+            updatingProduct ? updateProduct() : createProduct();
+          }}
+        >
+          {updatingProduct ? "Update" : "Create"}
+        </button>
+        {updatingProduct && (
+          <>
+            <button
+              onClick={() => {
+                deleteProduct();
+              }}
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Clear
+            </button>
+          </>
+        )}
+      </div>
+      {/* {JSON.stringify(product)} */}
     </div>
   );
 };

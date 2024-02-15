@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RxDashboard } from "react-icons/rx";
 import { TbCategoryPlus } from "react-icons/tb";
 import { LiaTagSolid } from "react-icons/lia";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 
 const AdminNav = ({ dashboardItem, setDashboardItem }) => {
   console.log(dashboardItem);
@@ -70,6 +71,21 @@ const AdminNav = ({ dashboardItem, setDashboardItem }) => {
               >
                 <LiaTagSolid className="text-2xl " />
                 <span className="ms-3">Create Products</span>
+              </p>
+            </li>
+            <li>
+              <p
+                className={`flex items-center p-2 rounded-md hover:bg-white hover:text-slate-600 hover:cursor-pointer ${
+                  dashboardItem === "4"
+                    ? "text-slate-600 bg-white "
+                    : " text-white"
+                }`}
+                onClick={() => {
+                  setDashboardItem("4");
+                }}
+              >
+                <MdOutlineProductionQuantityLimits className="text-2xl " />
+                <span className="ms-3">Products</span>
               </p>
             </li>
           </ul>
