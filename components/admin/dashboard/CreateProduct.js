@@ -36,7 +36,7 @@ const CreateProduct = () => {
   }, []);
   return (
     <div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         <p className=" text-2xl font-bold text-slate-800">
           {updatingProduct ? "Update" : "Create"} Product
         </p>
@@ -102,14 +102,14 @@ const CreateProduct = () => {
           type="number"
           placeholder="Stock"
           min={1}
-          value={updatingProduct ? updatingProduct?.number : product?.number}
+          value={updatingProduct ? updatingProduct?.stock : product?.stock}
           onChange={(e) =>
             updatingProduct
               ? setUpdatingProduct({
                   ...updatingProduct,
-                  number: e.target.value,
+                  stock: e.target.value,
                 })
-              : setProduct({ ...product, number: e.target.value })
+              : setProduct({ ...product, stock: e.target.value })
           }
         />
         <select
@@ -230,7 +230,7 @@ const CreateProduct = () => {
             />
           </label>
         </div>
-        <div className=" mt-4 flex gap-8 w-full">
+        <div className=" mt-4 mb-4 flex gap-8 w-full">
           {imagePreviewes?.map((img) => {
             return (
               <div
@@ -252,9 +252,9 @@ const CreateProduct = () => {
           })}
         </div>
       </div>
-      <div>
+      <div className=" flex p-1 gap-8">
         <button
-          className={`${"he"}`}
+          className={`bg-secondary font-bold w-[10rem] text-primary py-2 px-4 rounded-full hover:bg-slate-700 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
           onClick={(e) => {
             updatingProduct ? updateProduct() : createProduct();
           }}
@@ -264,6 +264,7 @@ const CreateProduct = () => {
         {updatingProduct && (
           <>
             <button
+              className={`bg-red-600 font-bold w-[10rem] text-primary py-2 px-4 rounded-full hover:bg-slate-700 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
               onClick={() => {
                 deleteProduct();
               }}
@@ -271,6 +272,7 @@ const CreateProduct = () => {
               Delete
             </button>
             <button
+              className={`bg-blue-700 font-bold w-[10rem] text-primary py-2 px-4 rounded-full hover:bg-slate-700 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
               onClick={() => {
                 window.location.reload();
               }}
