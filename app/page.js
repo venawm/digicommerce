@@ -1,9 +1,10 @@
-import Image from "next/image";
+import HomePage from "@/app/shop/page";
 
-export default function Home() {
+export default function Home({ searchParams }) {
   return (
-    <div className="h-[200vh]">
-      <h1>home</h1>
+    <div>
+      he
+      <HomePage />
     </div>
   );
 }

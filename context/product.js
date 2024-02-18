@@ -146,7 +146,7 @@ export const ProductProvider = ({ children }) => {
       } else {
         setProducts(data?.products);
         setCurrentPage(data?.currentPage);
-        setTotalPage(data?.totalPage);
+        setTotalPage(data?.totalProducts);
       }
     } catch (error) {
       console.log(error);
