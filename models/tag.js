@@ -1,6 +1,7 @@
 // models/category
 import mongoose from "mongoose";
 import mongooseUniqueValidator from "mongoose-unique-validator";
+import Category from "./categories";
 const tagSchema = new mongoose.Schema(
   {
     name: {

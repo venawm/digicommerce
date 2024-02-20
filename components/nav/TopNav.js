@@ -17,7 +17,7 @@ const TopNav = () => {
 
   return (
     <div className="w-screen flex items-center justify-center ">
-      <nav className="fixed mt-16 w-full bg-white h-20 border-b border-slate-200 text-slate-900 px-1 lg:px-[1.8rem] ">
+      <nav className="fixed mt-16 w-full bg-white h-20 border-b border-slate-200 text-slate-900 px-1 lg:px-[1.8rem] z-50">
         {profileMenu && (
           <>
             <div

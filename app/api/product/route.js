@@ -16,6 +16,8 @@ export async function GET(req) {
     const totalProducts = await Product.countDocuments({});
 
     const products = await Product.find({})
+      .populate("category", "name slug")
+      .populate("tags", "name slug")
       .skip(skip)
       .limit(pageSize)
       .sort({ createdAt: -1 });
@@ -26,6 +28,7 @@ export async function GET(req) {
       totalProducts: Math.ceil(totalProducts / pageSize),
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       {
         error: error.message,

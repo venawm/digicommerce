@@ -24,7 +24,12 @@ const page = async ({ searchParams }) => {
   const data = await getProducts(searchParams);
   return (
     <div>
-      <div></div>
+      <div className="w-full min-h-screen gap-4 flex-wrap flex justify-center items-center">
+        {data.products.map((e) => {
+          return <ProductCard key={e?._id} product={e} />;
+        })}
+      </div>
+
       <Pagination
         currentPage={data.currentPage}
         totalPages={data.totalProducts}
