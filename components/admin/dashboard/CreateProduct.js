@@ -6,6 +6,8 @@ import { useProduct } from "@/context/product";
 import { useCategory } from "@/context/category";
 import { useTag } from "@/context/tag";
 import { ImCross } from "react-icons/im";
+import { FaFileUpload } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const CreateProduct = () => {
   const {
@@ -23,6 +25,21 @@ const CreateProduct = () => {
   } = useProduct();
   const { categories, fetchCategory } = useCategory();
   const { tags, fetchTags } = useTag();
+
+  const clearProduct = () => {
+    setUpdatingProduct(null);
+    setProduct({
+      title: "",
+      price: "",
+      color: "",
+      brand: "",
+      stock: "",
+      category: null,
+      description: "",
+      tags: [],
+      images: [],
+    });
+  };
 
   // Image Preview
   const imagePreviewes = updatingProduct
@@ -45,14 +62,14 @@ const CreateProduct = () => {
           className="border rounded-lg border-slate-300 py-2 px-4 focus:outline-none focus:border-primary w-2/3"
           placeholder="Enter the title of your product "
           value={updatingProduct ? updatingProduct?.title : product?.title}
-          onChange={(e) =>
+          onChange={(e) => {
             updatingProduct
               ? setUpdatingProduct({
                   ...updatingProduct,
                   title: e.target.value,
                 })
-              : setProduct({ ...product, title: e.target.value })
-          }
+              : setProduct({ ...product, title: e.target.value });
+          }}
         />
         <input
           className="border rounded-lg border-slate-300 py-2 px-4 focus:outline-none focus:border-primary w-2/3"
@@ -148,7 +165,7 @@ const CreateProduct = () => {
           })}
         </select>
         <textarea
-          className="block p-2.5 w-full text-sm text-slate-800 bg-gray-50 rounded-lg border border-gray-300 "
+          className="block p-2.5 w-2/3 text-sm text-slate-800 bg-gray-50 rounded-lg border border-gray-300 "
           cols={10}
           rows={5}
           placeholder="Description for product"
@@ -216,9 +233,10 @@ const CreateProduct = () => {
         </div>
         <div>
           <label
-            className={`bg-secondary font-bold w-[15rem] text-primary py-2 px-4 rounded-full hover:bg-slate-700 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
+            className={`border border-slate-800  font-bold w-[15rem] text-secondary py-2 px-4 rounded-full hover:bg-slate-600 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2 hover:text-white`}
           >
             {" "}
+            <FaFileUpload />
             {uploading ? "Processing" : "Upload"} Images
             <input
               type="file"
@@ -267,6 +285,7 @@ const CreateProduct = () => {
               className={`bg-red-600 font-bold w-[10rem] text-primary py-2 px-4 rounded-full hover:bg-slate-700 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
               onClick={() => {
                 deleteProduct();
+                clearProduct();
               }}
             >
               Delete
@@ -274,7 +293,7 @@ const CreateProduct = () => {
             <button
               className={`bg-blue-700 font-bold w-[10rem] text-primary py-2 px-4 rounded-full hover:bg-slate-700 focus:outline-none focus:shadow-outline-primary flex items-center justify-center gap-2`}
               onClick={() => {
-                window.location.reload();
+                clearProduct();
               }}
             >
               Clear

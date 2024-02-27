@@ -9,7 +9,17 @@ import { resolve } from "styled-jsx/css";
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState({
+    title: "",
+    price: "",
+    color: "",
+    brand: "",
+    stock: "",
+    category: null,
+    description: "",
+    tags: [],
+    images: [],
+  });
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -116,6 +126,60 @@ export const ProductProvider = ({ children }) => {
 
   const createProduct = async () => {
     try {
+      // Validation checks
+      const errors = [];
+
+      // Check if title is empty
+      if (product.title === "") {
+        errors.push("Title is required");
+      }
+
+      // Check if price is empty or not a positive number
+      if (!product.price || isNaN(product.price) || product.price <= 0) {
+        errors.push("Price must be a positive number");
+      }
+
+      // Check if color is empty
+      if (!product.color.trim()) {
+        errors.push("Color is required");
+      }
+
+      // Check if brand is empty
+      if (!product.brand.trim()) {
+        errors.push("Brand is required");
+      }
+
+      // Check if stock is empty or not a positive number
+      if (!product.stock || isNaN(product.stock) || product.stock <= 0) {
+        errors.push("Stock must be a positive number");
+      }
+
+      // Check if category is not selected
+      if (!product.category) {
+        errors.push("Category is required");
+      }
+
+      // Check if description is empty
+      if (!product.description.trim()) {
+        errors.push("Description is required");
+      }
+
+      // Check if at least one tag is selected
+      if (!product.tags || product.tags.length === 0) {
+        errors.push("At least one tag must be selected");
+      }
+
+      // If there are validation errors, toast each error and stop the function
+      if (errors.length > 0) {
+        console.log("hehe");
+        errors.forEach((error) => {
+          toast.error(error);
+        });
+        return;
+      }
+
+      // If there are no validation errors, proceed with posting the product
+      console.log("heh");
       const response = await fetch(`${process.env.API}/admin/product`, {
         method: "POST",
         body: JSON.stringify(product),
@@ -125,7 +189,7 @@ export const ProductProvider = ({ children }) => {
       if (!response.ok) {
         toast.error(data.error);
       } else {
-        toast.success("Products Created");
+        toast.success("Product Created");
       }
     } catch (error) {
       console.log(error);

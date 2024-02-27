@@ -1,13 +1,27 @@
 "use client";
 import AdminNav from "@/components/nav/AdminNav";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Category from "@/components/admin/dashboard/Category";
 import Tag from "@/components/admin/dashboard/Tag";
 import CreateProduct from "@/components/admin/dashboard/CreateProduct";
 import Products from "@/components/admin/dashboard/Products";
+import { useProduct } from "@/context/product";
 
 const page = () => {
   const [dashboardItem, setDashboardItem] = useState("0");
+  const {
+    product,
+    setProduct,
+    updatingProduct,
+    setUpdatingProduct,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    uploading,
+    setUploading,
+    uploadImages,
+    deleteImage,
+  } = useProduct();
 
   const renderer = () => {
     if (dashboardItem === "0") {
@@ -22,6 +36,23 @@ const page = () => {
       return <Products setDashboardItem={setDashboardItem} />;
     }
   };
+  useEffect(() => {
+    if (!(dashboardItem == 3 || dashboardItem == 4)) {
+      // Code block to execute when dashboardItem is not equal to both 3 and 4
+      setUpdatingProduct(null);
+      setProduct({
+        title: "",
+        price: "",
+        color: "",
+        brand: "",
+        stock: "",
+        category: null,
+        description: "",
+        tags: [],
+        images: [],
+      });
+    }
+  }, [dashboardItem]);
 
   return (
     <main className="flex gap-12">

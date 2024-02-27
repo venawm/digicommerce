@@ -1,21 +1,49 @@
+"use client";
 import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { FaHeart } from "react-icons/fa";
+import Stars from "./Ratings";
+import { CiHeart } from "react-icons/ci";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 dayjs.extend(relativeTime);
 export default function ({ product }) {
+  const router = useRouter();
+  const [like, setLike] = useState(false);
+  const clickLike = () => {};
   return (
     <div
+      onClick={() => {
+        router.push(`/shop/${product?.slug}`);
+      }}
       key={product?._id}
       className="w-[20rem] h-[30rem]  p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-sm hover:shadow-2xl flex flex-col justify-between border border-slate-200 "
     >
       <div className="">
-        <div style={{ height: "200px", overflow: "hidden" }}>
+        {like ? (
+          <FaHeart
+            className=" text-3xl absolute fill-red-600"
+            onClick={() => {
+              setLike(!like);
+            }}
+          />
+        ) : (
+          <CiHeart
+            className=" text-3xl absolute fill-slate-600"
+            onClick={() => {
+              setLike(!like);
+            }}
+          />
+        )}
+
+        <div className="h-[250px] overflow-hidden flex justify-center items-center ">
           <Image
             src={product?.images?.[0]?.secure_url || "/images/not-found.jpg"}
-            width={500}
-            height={300}
+            width={200}
+            height={200}
             alt={product?.title}
+            className=" object-scale-down"
           />
         </div>
         <div>
@@ -56,15 +84,16 @@ export default function ({ product }) {
               <p>0 Likes</p>
             </small> */}
           </div>
-          <div className="">
-            <small>🌟 Stars</small>
+          <div className="flex justify-center items-center">
+            <Stars rating={4.5} />
           </div>
         </div>
       </div>
 
       <div className="m-2 flex justify-center items-center">
-        <button className="text-white bg-violet-700 px-3 py-1 rounded-md hover:bg-purple-700 w-full h-12">
-          Learn More
+        <button className="text-white bg-violet-700 px-3 py-1 rounded-md hover:bg-purple-700 flex justify-center items-center gap-2  h-10 w-full">
+          <FaShoppingCart className="text-2xl" />
+          Add to Cart
         </button>
       </div>
     </div>

@@ -24,8 +24,8 @@ const Products = ({ setDashboardItem }) => {
 
   console.log(totalPage);
   const handleClick = (product) => {
-    setUpdatingProduct(product);
     setDashboardItem("3");
+    setUpdatingProduct(product);
   };
   return (
     <div className=" flex flex-col gap-2">
@@ -46,7 +46,7 @@ const Products = ({ setDashboardItem }) => {
                     src={
                       product?.images[0]?.secure_url || "/images/not-found.jpg"
                     }
-                    width={400}
+                    width={250}
                     height={200}
                     className=" bg-cover"
                     alt={product?.name || "error"}
