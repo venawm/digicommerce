@@ -3,6 +3,7 @@
 import React from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiShoppingBag } from "react-icons/bi";
+import colorPicker from "@/utils/colorPicker";
 import ImageGallery from "react-image-gallery";
 
 async function getProduct(slug) {
@@ -27,26 +28,13 @@ const page = async ({ params }) => {
       thumbnail: e.secure_url,
     };
   });
-  const productDetailItem = {
-    title: "BIG ITALIAN SOFA",
-    reviews: "150",
-    availability: true,
-    brand: "apex",
-    category: "Sofa",
-    sku: "BE45VGTRK",
-    price: 450,
-    previousPrice: 599,
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem exercitationem voluptate sint eius ea assumenda provident eos repellendus qui neque! Velit ratione illo maiores voluptates commodi eaque illum, laudantium non!",
-    size: ["XS", "S", "M", "L", "XL"],
-    color: ["gray", "violet", "red"],
-  };
+
   const plusMinuceButton =
     "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
   return (
     <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
       {/* image gallery */}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 w-2/3">
         <ImageGallery
           lazyLoad
           items={images}
@@ -64,7 +52,7 @@ const page = async ({ params }) => {
         <div className="flex gap-2">
           <p className="mt-5 font-bold">
             Availability:
-            {productDetailItem.availability ? (
+            {product.stock > 0 ? (
               <span className="text-green-600">In Stock </span>
             ) : (
               <span className="text-red-600">Expired</span>
@@ -82,7 +70,7 @@ const page = async ({ params }) => {
         <p className="font-bold">
           Tags: <span className="font-normal">Implement tags later</span>
         </p>
-        <p className="mt-4 text-4xl font-bold text-violet-900">
+        <p className="mt-4 text-4xl font-bold text-purple-700">
           ${product.price}{" "}
           <span className="text-xs text-gray-400 line-through">
             ${product?.previousPrice}
@@ -92,15 +80,15 @@ const page = async ({ params }) => {
           {product.description}
         </p>
         <div className="mt-6">
-          <p className="pb-2 text-xs text-gray-500">Size</p>
+          <p className="pb-2 text-xs text-gray-500">Tags</p>
           <div className="flex gap-1">
-            {productDetailItem.size.map((x, index) => {
+            {product.tags.map((x, index) => {
               return (
                 <div
                   key={index}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
+                  className="flex h-8 w-auto p-2 rounded-md cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
                 >
-                  {x}
+                  {x.name}
                 </div>
               );
             })}
@@ -108,21 +96,21 @@ const page = async ({ params }) => {
         </div>
         <div className="mt-6">
           <p className="pb-2 text-xs text-gray-500">Color</p>
-          <div className="flex gap-1">
-            {productDetailItem.color.map((x, index) => {
-              return (
-                <div
-                  key={index}
-                  className={`h-8 w-8 cursor-pointer border border-white bg-${x}-600 focus:ring-2 focus:ring-${x}-500 active:ring-2 active:ring-${x}-500`}
-                />
-              );
-            })}
+          <div className="flex gap-1 w-full">
+            <div
+              style={{
+                backgroundColor: colorPicker(product.color) || "#000000",
+              }}
+              className="h-8 w-8 cursor-pointe rounded-full"
+            ></div>
+
+            {product.color}
           </div>
         </div>
         <div className="mt-6">
           <p className="pb-2 text-xs text-gray-500">Quantity</p>
           <div className="flex">
-            <button className={`${plusMinuceButton}`}>−</button>
+            <button className={`${plusMinuceButton} `}>−</button>
             <div className="flex h-8 w-8 cursor-text items-center justify-center border-t border-b active:ring-gray-500">
               1
             </div>
@@ -130,11 +118,11 @@ const page = async ({ params }) => {
           </div>
         </div>
         <div className="mt-7 flex flex-row items-center gap-6">
-          <button className="flex h-12 w-1/3 items-center justify-center bg-violet-900 text-white duration-100 hover:bg-blue-800">
+          <button className="flex h-12 w-1/3 items-center justify-center bg-purple-700 text-white duration-100 hover:bg-blue-800 rounded-md">
             <BiShoppingBag className="mx-2" />
             Add to cart
           </button>
-          <button className="flex h-12 w-1/3 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300">
+          <button className="flex h-12 w-1/3 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 rounded-md">
             <AiOutlineHeart className="mx-2" />
             Wishlist
           </button>

@@ -4,7 +4,7 @@ import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/admin/:path*"],
+  matcher: ["/dashboard/:path*", "/api/admin/:path*", "/api/user/:path*"],
 };
 
 export default withAuth(
