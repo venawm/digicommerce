@@ -5,6 +5,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BiShoppingBag } from "react-icons/bi";
 import colorPicker from "@/utils/colorPicker";
 import ImageGallery from "react-image-gallery";
+import ProductLike from "@/components/product/ProductLike";
 
 async function getProduct(slug) {
   const response = await fetch(`${process.env.API}/product/${slug}`, {
@@ -67,9 +68,7 @@ const page = async ({ params }) => {
           Cathegory:{" "}
           <span className="font-normal">{product.category.name}</span>
         </p>
-        <p className="font-bold">
-          Tags: <span className="font-normal">Implement tags later</span>
-        </p>
+        <ProductLike product={product} />
         <p className="mt-4 text-4xl font-bold text-purple-700">
           ${product.price}{" "}
           <span className="text-xs text-gray-400 line-through">
