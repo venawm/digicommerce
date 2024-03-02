@@ -25,6 +25,10 @@ export const ProductProvider = ({ children }) => {
   const [totalPage, setTotalPage] = useState(1);
   const [updatingProduct, setUpdatingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
+  // Rating system
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [currentRating, setCurrentRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   const router = useRouter();
 

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import Stars from "./Ratings";
+import Stars from "../Rating/Ratings";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
@@ -84,7 +84,7 @@ export default function ({ product }) {
               <p>0 Likes</p>
             </small> */}
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center text-2xl">
             <Stars rating={4.5} />
           </div>
         </div>

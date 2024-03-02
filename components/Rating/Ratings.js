@@ -5,13 +5,11 @@ export default function Stars({ rating }) {
 
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
-      stars.push(<FaStar key={i} className=" fill-yellow-400 text-2xl" />);
+      stars.push(<FaStar key={i} className=" fill-yellow-400" />);
     } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
-      stars.push(
-        <FaStarHalfAlt key={i} className="fill-yellow-400 text-2xl" />
-      );
+      stars.push(<FaStarHalfAlt key={i} className="fill-yellow-400" />);
     } else {
-      stars.push(<FaRegStar key={i} className="fill-yellow-400 text-2xl" />);
+      stars.push(<FaRegStar key={i} className="fill-yellow-400" />);
     }
   }
 
