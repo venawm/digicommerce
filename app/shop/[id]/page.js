@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import { AiOutlineHeart } from "react-icons/ai";
+
 import { BiShoppingBag } from "react-icons/bi";
 import colorPicker from "@/utils/colorPicker";
 import ImageGallery from "react-image-gallery";
 import ProductLike from "@/components/product/ProductLike";
 import Rating from "@/components/Rating/ProductReviews";
 import Stars from "@/components/Rating/Ratings";
+import { calculateAverage } from "@/utils/helper";
 
 async function getProduct(slug) {
   const response = await fetch(`${process.env.API}/product/${slug}`, {
@@ -21,9 +22,9 @@ async function getProduct(slug) {
     return data;
   }
 }
-
 const page = async ({ params }) => {
   const product = await getProduct(params.id);
+  const average = calculateAverage(product?.ratings);
   const image = product.images;
   const images = image.map((e) => {
     return {
@@ -53,8 +54,9 @@ const page = async ({ params }) => {
 
         <div className="mx-auto px-5 lg:px-5">
           <h2 className="pt-3 text-2xl font-bold lg:pt-0">{product.title}</h2>
-          <div className="flex justify-centers text-sm">
-            <Stars rating={4.5} />
+          <div className="flex justify-centers items-center text-sm">
+            <Stars rating={average} />
+            <p className="text-slate-400">({product?.ratings.length})</p>
           </div>
           <div className="flex gap-2">
             <p className="mt-5 font-bold">
@@ -132,11 +134,9 @@ const page = async ({ params }) => {
               Wishlist
             </button> */}
           </div>
+          <Rating product={product} />
         </div>
       </section>
-      <div className=" min-h-24">
-        <Rating />
-      </div>
     </div>
   );
 };

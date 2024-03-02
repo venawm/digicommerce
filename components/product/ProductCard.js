@@ -7,10 +7,12 @@ import { CiHeart } from "react-icons/ci";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { calculateAverage } from "@/utils/helper";
 dayjs.extend(relativeTime);
 export default function ({ product }) {
   const router = useRouter();
   const [like, setLike] = useState(false);
+  const average = calculateAverage(product?.ratings);
   const clickLike = () => {};
   return (
     <div
@@ -85,7 +87,10 @@ export default function ({ product }) {
             </small> */}
           </div>
           <div className="flex justify-center items-center text-2xl">
-            <Stars rating={4.5} />
+            <Stars rating={average} />
+            <p className="text-slate-400 text-xs">
+              ({product?.ratings.length})
+            </p>
           </div>
         </div>
       </div>
