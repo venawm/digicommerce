@@ -111,6 +111,21 @@ export const CategoryProvider = ({ children }) => {
     }
   };
   // Clear the categoryUpdate state
+  const fetchCategoriesPublic = async () => {
+    try {
+      const response = await fetch(`${process.env.API}/categories`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data);
+      } else {
+        setCategories(data);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("An error occurred. Try again");
+    }
+  };
 
   //   Return the context
   return (
@@ -126,6 +141,7 @@ export const CategoryProvider = ({ children }) => {
         deleteCategory,
         updatingCategory,
         setUpdatingCategory,
+        fetchCategoriesPublic,
       }}
     >
       {children}

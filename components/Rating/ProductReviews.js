@@ -24,11 +24,13 @@ const Rating = ({ product }) => {
   const { data, status } = useSession();
 
   const alreadyRated = productRatings?.find((rate) => {
-    rate?.postedBy?._id === data?.user?._id;
-    return rate;
+    if (rate?.postedBy?._id === data?.user?._id) {
+      return rate;
+    }
   });
 
   useEffect(() => {
+    console.log(alreadyRated);
     if (alreadyRated) {
       setCurrentRating(alreadyRated?.rating);
       setComment(alreadyRated?.comment);

@@ -25,6 +25,7 @@ export const ProductProvider = ({ children }) => {
   const [totalPage, setTotalPage] = useState(1);
   const [updatingProduct, setUpdatingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [brands, setBrands] = useState([]);
   // Rating system
   const [currentRating, setCurrentRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -263,7 +264,21 @@ export const ProductProvider = ({ children }) => {
       console.log(error);
     }
   };
-
+  const fetchBrands = async () => {
+    try {
+      const response = await fetch(`${process.env.API}/product/brands`, {
+        method: "GET",
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        toast.error(data?.err);
+      } else {
+        setBrands(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -289,6 +304,7 @@ export const ProductProvider = ({ children }) => {
         setCurrentRating,
         comment,
         setComment,
+        fetchBrands,
       }}
     >
       {children}
