@@ -30,6 +30,10 @@ export const ProductProvider = ({ children }) => {
   const [currentRating, setCurrentRating] = useState(0);
   const [comment, setComment] = useState("");
 
+  // Search
+  const [productSearchQuery, setProductSearchQuery] = useState("");
+  const [productSearchResults, setProductSearchResults] = useState([]);
+
   const router = useRouter();
 
   // Upload Images
@@ -270,7 +274,7 @@ export const ProductProvider = ({ children }) => {
         method: "GET",
       });
       const data = await response.json();
-      if (!response.ok) {
+      if (!response) {
         toast.error(data?.err);
       } else {
         setBrands(data);
@@ -279,6 +283,29 @@ export const ProductProvider = ({ children }) => {
       console.log(err);
     }
   };
+
+  const fetchProductSearchResults = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `${process.env.API}/search/products?productSearchQuery=${productSearchQuery}`,
+        { method: "GET" }
+      );
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error("Error while searching product");
+      }
+      const data = await response.json();
+      console.log(data);
+      setProductSearchResults(data);
+      router.push(`/search/products?productSearchQuery=${productSearchQuery}`);
+    } catch (error) {
+      toast.error("Unable to search for the product try again later");
+      console.log(error);
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -305,6 +332,11 @@ export const ProductProvider = ({ children }) => {
         comment,
         setComment,
         fetchBrands,
+        productSearchQuery,
+        setProductSearchQuery,
+        productSearchResults,
+        setProductSearchResults,
+        fetchProductSearchResults,
       }}
     >
       {children}

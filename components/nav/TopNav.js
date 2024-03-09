@@ -7,13 +7,20 @@ import { useSession, signOut } from "next-auth/react";
 import { ImCross } from "react-icons/im";
 import { CiSearch, CiShoppingCart, CiUser } from "react-icons/ci";
 import { FiMenu } from "react-icons/fi";
-import { FaUser, FaShoppingCart } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useProduct } from "@/context/product";
 
 const TopNav = () => {
   const { data, status } = useSession();
   const [mentStatus, setMenuStatus] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
+
+  const {
+    productSearchQuery,
+    setProductSearchQuery,
+    fetchProductSearchResults,
+  } = useProduct();
 
   return (
     <div className="w-screen flex items-center justify-center ">
@@ -72,7 +79,11 @@ const TopNav = () => {
           >
             D
           </Link>
-          <form className="lg:inline-flex w-1/2  ">
+          <form
+            className="lg:inline-flex w-1/2 "
+            role="search"
+            onSubmit={fetchProductSearchResults}
+          >
             <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
               Search
             </label>
@@ -84,6 +95,8 @@ const TopNav = () => {
                 className="block w-full h-10 p-4 ps-10 text-sm text-gray-900 border border-slate-100 rounded-xl bg-gray-50 outline-none"
                 placeholder="Search"
                 required
+                onChange={(e) => setProductSearchQuery(e.target.value)}
+                value={productSearchQuery}
               ></input>
               <button
                 type="submit"
