@@ -180,9 +180,7 @@ export const ProductProvider = ({ children }) => {
       // If there are validation errors, toast each error and stop the function
       if (errors.length > 0) {
         console.log("hehe");
-        errors.forEach((error) => {
-          toast.error(error);
-        });
+        toast.error(errors[0]);
         return;
       }
 

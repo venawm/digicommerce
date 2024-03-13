@@ -50,7 +50,7 @@ export default function ProductFilter({ searchParams }) {
     "p-1 rounded-md block text-center w-2/3 border border-slate-100 hover:bg-slate-100";
 
   return (
-    <div className="w-[20vw] max-h-[75vh] overflow-scroll text-slate-800  border p-6 border-slate-200 rounded-md scrollbar-hide">
+    <div className="w-[20rem] max-h-[75vh] overflow-scroll text-slate-800  border p-6 border-slate-200 rounded-md scrollbar-hide mb-4">
       <div className="">
         <p className="text-xl font-bold">Filter Products</p>
         <Link href={"/shop"} className="text-violet-700 hover:text-violet-800">

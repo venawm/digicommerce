@@ -62,11 +62,11 @@ const Page = ({ searchParams }) => {
   }, [searchParams]);
 
   return (
-    <div className="flex flex-col lg:flex-row h-full">
-      <div className="lg:w-1/4">
+    <div className="flex flex-col lg:flex-row h-full ">
+      <div className="lg:w-1/4 flex justify-center">
         <ProductFilter searchParams={searchParams} />
       </div>
-      <div className="lg:flex-grow">
+      <div className="lg:flex-grow flex-col items-center justify-center">
         <div className="gap-4 flex-wrap flex justify-center">
           {productsData.products.map((product) => (
             <ProductCard key={product?._id} product={product} />

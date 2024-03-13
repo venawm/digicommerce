@@ -9,6 +9,7 @@ import ProductLike from "@/components/product/ProductLike";
 import Rating from "@/components/Rating/ProductReviews";
 import Stars from "@/components/Rating/Ratings";
 import { calculateAverage } from "@/utils/helper";
+import UserReviews from "@/components/product/UserReviews";
 
 async function getProduct(slug) {
   const response = await fetch(`${process.env.API}/product/${slug}`, {
@@ -39,7 +40,7 @@ const page = async ({ params }) => {
     <div>
       <section className="container flex-grow mx-auto max-w-[1200px] py-5 lg:grid lg:grid-cols-2 lg:py-10">
         {/* image gallery */}
-        <div className="container mx-auto px-4 w-2/3">
+        <div className="container mx-auto px-4 w-full">
           <ImageGallery
             lazyLoad
             items={images}
@@ -49,6 +50,9 @@ const page = async ({ params }) => {
           />
 
           {/* /image gallery  */}
+          <div className="">
+            <UserReviews reviews={product?.ratings} />
+          </div>
         </div>
         {/* description  */}
 
