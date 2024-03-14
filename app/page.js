@@ -1,5 +1,9 @@
 import HomePage from "@/app/shop/page";
 
 export default function Home({ searchParams }) {
-  return <div>he</div>;
+  return (
+    <div>
+      <div></div>
+    </div>
+  );
 }
