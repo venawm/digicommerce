@@ -7,12 +7,11 @@ import { BiShoppingBag } from "react-icons/bi";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { calculateAverage } from "@/utils/helper";
+import AddToCart from "./AddToCart";
 dayjs.extend(relativeTime);
 export default function ({ product }) {
   const router = useRouter();
-  const [like, setLike] = useState(false);
   const average = calculateAverage(product?.ratings);
-  const clickLike = () => {};
   return (
     <div
       onClick={() => {
@@ -78,12 +77,7 @@ export default function ({ product }) {
         </div>
       </div>
 
-      <div className="m-2 flex justify-center items-center">
-        <button className="text-white bg-violet-700 px-3 py-1 rounded-md hover:bg-purple-700 flex justify-center items-center gap-2  h-10 w-full">
-          <BiShoppingBag className="mx-2" />
-          Add to Cart
-        </button>
-      </div>
+      <AddToCart product={product} />
     </div>
   );
 }

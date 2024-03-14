@@ -10,6 +10,7 @@ import Rating from "@/components/Rating/ProductReviews";
 import Stars from "@/components/Rating/Ratings";
 import { calculateAverage } from "@/utils/helper";
 import UserReviews from "@/components/product/UserReviews";
+import AddToCart from "@/components/product/AddToCart";
 
 async function getProduct(slug) {
   const response = await fetch(`${process.env.API}/product/${slug}`, {
@@ -23,6 +24,7 @@ async function getProduct(slug) {
     return data;
   }
 }
+
 const page = async ({ params }) => {
   const product = await getProduct(params.id);
   const average = calculateAverage(product?.ratings);
@@ -47,6 +49,7 @@ const page = async ({ params }) => {
             showBullets={false}
             showFullscreenButton={false}
             showPlayButton={false}
+            className={"min-h-44"}
           />
 
           {/* /image gallery  */}
@@ -77,7 +80,7 @@ const page = async ({ params }) => {
             Brand: <span className="font-normal">{product.brand}</span>
           </p>
           <p className="font-bold">
-            Cathegory:{" "}
+            Category:{" "}
             <span className="font-normal">{product.category.name}</span>
           </p>
           <ProductLike product={product} />
@@ -119,25 +122,9 @@ const page = async ({ params }) => {
             </div>
           </div>
           <div className="mt-6">
-            <p className="pb-2 text-xs text-gray-500">Quantity</p>
-            <div className="flex">
-              <button className={`${plusMinuceButton} `}>−</button>
-              <div className="flex h-8 w-8 cursor-text items-center justify-center border-t border-b active:ring-gray-500">
-                1
-              </div>
-              <button className={`${plusMinuceButton}`}> +</button>
-            </div>
+            <AddToCart product={product} />
           </div>
-          <div className="mt-7 flex flex-row items-center gap-6">
-            <button className="flex h-12 w-1/3 items-center justify-center bg-purple-700 text-white duration-100 hover:bg-blue-800 rounded-md">
-              <BiShoppingBag className="mx-2" />
-              Add to cart
-            </button>
-            {/* <button className="flex h-12 w-1/3 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300 rounded-md">
-              <AiOutlineHeart className="mx-2" />
-              Wishlist
-            </button> */}
-          </div>
+
           <Rating product={product} />
         </div>
       </section>
