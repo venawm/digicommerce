@@ -2,10 +2,12 @@
 
 import { createContext, useState, useEffect, useContext } from "react";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { data: session, status } = useSession();
   const [cartItems, setCartItems] = useState([]);
   // coupons
   const [couponCode, setCouponCode] = useState("");
@@ -21,23 +23,65 @@ export const CartProvider = ({ children }) => {
   // save cart items to local storage when cart items change
 
   // add to cart
-  const addToCart = (product, quantity) => {
-    const existingProduct = cartItems?.find(
-      (item) => item?._id === product?._id
-    );
+  const addToCart = async (product, quantity) => {
+    const data = {
+      product: product._id,
+      quantity: quantity,
+      userId: session?.user?._id,
+    };
+    try {
+      const response = await fetch(`${process.env.API}/user/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        toast.error("Error while adding to cart");
+        return;
+      }
+      toast.success("Item added to cart sucessfully");
+    } catch (error) {
+      console.log(error);
+    }
+    // const existingProduct = cartItems?.find(
+    //   (item) => item?._id === product?._id
+    // );
+    // if (existingProduct) {
+    //   const updatedCartItems = cartItems?.map((item) =>
+    //     item?._id === product?._id
+    //       ? { ...item, quantity: item?.quantity + quantity }
+    //       : item
+    //   );
+    //   setCartItems(updatedCartItems);
+    // } else {
+    //   setCartItems([...cartItems, { ...product, quantity }]);
+    //   const newCartItems = [...cartItems, { ...product, quantity }];
+    //   setCartItems(newCartItems);
+    //   localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+    // }
+  };
+  const getCart = async () => {
+    const userId = session?.user?._id;
 
-    if (existingProduct) {
-      const updatedCartItems = cartItems?.map((item) =>
-        item?._id === product?._id
-          ? { ...item, quantity: item?.quantity + quantity }
-          : item
+    try {
+      const response = await fetch(
+        `${process.env.API}/user/cart?userId=${userId}`,
+        {
+          method: "GET",
+        }
       );
-      setCartItems(updatedCartItems);
-    } else {
-      setCartItems([...cartItems, { ...product, quantity }]);
-      const newCartItems = [...cartItems, { ...product, quantity }];
-      setCartItems(newCartItems);
-      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+      // if (!userId) {
+      //   setTimeout(getCart, 1000);
+      // }
+      if (!response.ok) {
+        return;
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -105,6 +149,7 @@ export const CartProvider = ({ children }) => {
         percentOff,
         validCoupon,
         clearCart,
+        getCart,
       }}
     >
       {children}

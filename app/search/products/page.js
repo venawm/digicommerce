@@ -44,7 +44,14 @@ const page = () => {
   return (
     <div>
       <div>
-        {productSearchResults?.length} Results
+        <p className="mb-4">
+          <span className="text-xl  font-semibold">
+            Search result for: {query}
+          </span>{" "}
+          <span className="text-slate-500">
+            ({productSearchResults?.length} total results)
+          </span>
+        </p>
         <div className="gap-4 flex-wrap flex justify-center">
           {productSearchResults?.map((product) => (
             <ProductCard key={product?._id} product={product} />

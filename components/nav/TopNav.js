@@ -10,6 +10,7 @@ import { FiMenu } from "react-icons/fi";
 import { FaUser } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useProduct } from "@/context/product";
+import { useCart } from "@/context/cart";
 
 const TopNav = () => {
   const { data, status } = useSession();
@@ -21,6 +22,15 @@ const TopNav = () => {
     setProductSearchQuery,
     fetchProductSearchResults,
   } = useProduct();
+
+  const { cartItems, getCart } = useCart();
+  useEffect(() => {
+    if (status === "authenticated") {
+      getCart(); // Call getCart only if user is authenticated
+    }
+  }, [status]);
+
+  // ...
 
   return (
     <div className="w-screen flex items-center justify-center ">
@@ -69,13 +79,13 @@ const TopNav = () => {
         <div className=" max-w-screen-2xl mx-auto px-4 flex items-center h-full justify-between">
           <Link
             className="text-3xl font-bold  lg:flex md:flex xsm:hidden text-slate-800"
-            href="/"
+            href="/shop"
           >
             Digicommerce
           </Link>
           <Link
             className="text-3xl font-bold lg:hidden md:hidden xsm:flex"
-            href="/"
+            href="/shop"
           >
             D
           </Link>
@@ -107,9 +117,15 @@ const TopNav = () => {
             </div>
           </form>
           <ul className="hidden lg:inline-flex gap-4 items-center text-slate-800">
-            <div className=" h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100">
+            <Link
+              href={"/cart"}
+              className=" h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100 relative"
+            >
               <CiShoppingCart className="text-3xl hover:cursor-pointer" />
-            </div>
+              <p className=" absolute w-4 h-4 bg-violet-700 text-slate-50 text-center flex justify-center items-center text-[10px] p-1 rounded-full top-[-5%] right-[2%]">
+                {cartItems.length}
+              </p>
+            </Link>
             {status === "authenticated" ? (
               <>
                 <div className="w-12 h-12 bg-slate-50 hover:bg-slate-100 rounded-full flex justify-center items-center hover:cursor-pointer">
