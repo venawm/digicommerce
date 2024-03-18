@@ -12,7 +12,7 @@ export async function POST(req) {
       quantity,
       userId,
     });
-    return NextResponse.json({ success: cartItem });
+    return NextResponse.json({ cartItem });
   } catch (error) {
     return NextResponse.error({ error: error.message }, { status: 500 });
   }
@@ -29,9 +29,34 @@ export async function GET(req) {
 
   try {
     const data = await Cart.find({ userId: userId }).populate("product");
-    return NextResponse.json({ success: data });
+    return NextResponse.json(data);
   } catch (error) {
     console.log(error);
+    return NextResponse.error({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function PUT(req) {
+  dbConnect();
+  const { quantity, productId } = await req.json();
+  try {
+    const cartItem = await Cart.updateOne(
+      { product: productId },
+      { $set: { quantity: quantity } }
+    );
+    return NextResponse.json({ cartItem });
+  } catch (error) {
+    return NextResponse.error({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  dbConnect();
+  const { productId } = await req.json();
+  try {
+    const cartItem = await Cart.deleteOne({ product: productId });
+    return NextResponse.json({ cartItem });
+  } catch (error) {
     return NextResponse.error({ error: error.message }, { status: 500 });
   }
 }

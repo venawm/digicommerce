@@ -1,20 +1,19 @@
 "use client";
 
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useContext } from "react";
 import toast from "react-hot-toast";
 
 export const CategoryContext = createContext();
 
 export const CategoryProvider = ({ children }) => {
-  // to create category
   const [name, setName] = useState("");
 
-  //   for fetching all categories
+  //   For fetching all categories
   const [categories, setCategories] = useState([]);
-  //   for update and delete
+  //   For update and delete
   const [updatingCategory, setUpdatingCategory] = useState();
 
-  //   to create a category
+  //   To create a category
   const createCategory = async () => {
     try {
       const response = await fetch(`${process.env.API}/admin/category`, {
@@ -85,8 +84,6 @@ export const CategoryProvider = ({ children }) => {
     }
   };
   //   Deleting the categories
-  // context/category
-  // ...
   const deleteCategory = async () => {
     try {
       const response = await fetch(

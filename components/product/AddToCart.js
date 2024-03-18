@@ -8,7 +8,9 @@ export default function AddToCart({ product }) {
   const { addToCart, updateQuantity, removeFromCart, cartItems } = useCart();
 
   // find the product in cartItems if it exist
-  const existingProduct = cartItems?.find((item) => item?._id === product?._id);
+  const existingProduct = cartItems?.find(
+    (item) => item?.product?._id === product?._id
+  );
   const initialQuantity = existingProduct ? existingProduct?.quantity : 1;
 
   const [quantity, setQuantity] = useState(initialQuantity);
@@ -21,7 +23,7 @@ export default function AddToCart({ product }) {
     e.stopPropagation();
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    updateQuantity(product, newQuantity);
+    updateQuantity(newQuantity, product);
   };
 
   const handleDecrement = (e) => {
@@ -29,7 +31,7 @@ export default function AddToCart({ product }) {
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      updateQuantity(product, newQuantity);
+      updateQuantity(newQuantity, product);
     } else {
       removeFromCart(product._id);
       setQuantity(1);
@@ -43,7 +45,7 @@ export default function AddToCart({ product }) {
 
   return (
     <div>
-      {cartItems?.some((item) => item?._id === product?._id) ? (
+      {cartItems?.some((item) => item?.product?._id === product?._id) ? (
         <div>
           <div
             className="text-violet-700 border border-violet-700 px-3 py-1 rounded-md flex justify-evenly items-center gap-2  h-10 w-full text-xl font-semibold"
