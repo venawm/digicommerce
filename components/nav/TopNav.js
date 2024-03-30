@@ -72,6 +72,11 @@ const TopNav = () => {
                     Dashboard
                   </p>
                 </Link>
+                <Link href={`/dashboard/user/orders`}>
+                  <p className=" font-bold px-4 py-2 transition-all hover:bg-dark rounded text-center cursor-pointer">
+                    Orders
+                  </p>
+                </Link>
               </div>
             </div>
           </>

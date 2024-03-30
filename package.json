@@ -27,7 +27,8 @@
     "react-image-file-resizer": "^0.4.8",
     "react-image-gallery": "^1.3.0",
     "sass": "^1.70.0",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "stripe": "^14.22.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",

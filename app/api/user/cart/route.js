@@ -4,7 +4,7 @@ import dbConnect from "@/utils/dbConnect";
 import { parse } from "url";
 
 export async function POST(req) {
-  dbConnect();
+  await dbConnect();
   const { product, quantity, userId } = await req.json();
   try {
     const cartItem = await Cart.create({
@@ -37,7 +37,7 @@ export async function GET(req) {
 }
 
 export async function PUT(req) {
-  dbConnect();
+  await dbConnect();
   const { quantity, productId } = await req.json();
   try {
     const cartItem = await Cart.updateOne(
@@ -51,12 +51,15 @@ export async function PUT(req) {
 }
 
 export async function DELETE(req) {
-  dbConnect();
-  const { productId } = await req.json();
+  await dbConnect();
+  const { productId, userId } = await req.json();
   try {
-    const cartItem = await Cart.deleteOne({ product: productId });
+    const cartItem = await Cart.deleteMany({
+      userId: userId,
+      product: productId,
+    });
     return NextResponse.json({ cartItem });
   } catch (error) {
-    return NextResponse.error({ error: error.message }, { status: 500 });
+    return NextResponse.error({ error: "No items in cart" }, { status: 500 });
   }
 }

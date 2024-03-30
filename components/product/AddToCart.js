@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/cart";
 import { BiShoppingBag } from "react-icons/bi";
-import Link from "next/link";
 
 export default function AddToCart({ product }) {
   const { addToCart, updateQuantity, removeFromCart, cartItems } = useCart();

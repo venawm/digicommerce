@@ -53,7 +53,7 @@ export const CartProvider = ({ children }) => {
         }
       );
       if (!response.ok) {
-        toast.error("Error fetching items from cart ");
+        // toast.error("Error fetching items from cart ");
         return;
       }
       const data = await response.json();
@@ -66,7 +66,7 @@ export const CartProvider = ({ children }) => {
 
   // Remove item from cart
   const removeFromCart = async (productId) => {
-    const data = { productId: productId };
+    const data = { productId: productId, userId: session?.user?._id };
     try {
       const response = await fetch(`${process.env.API}/user/cart`, {
         method: "DELETE",
@@ -108,6 +108,7 @@ export const CartProvider = ({ children }) => {
         return;
       }
       setCartItems(updatedItems);
+      getCart();
     } catch (error) {
       console.log(error);
     }
@@ -138,8 +139,24 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const clearCart = () => {
-    localStorage.removeItem("cartItems");
+  const clearCart = async () => {
+    const data = { userId: session?.user?._id };
+    try {
+      const response = await fetch(`${process.env.API}/user/cart/clear`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        toast.error("Error while removing from cart");
+        return;
+      }
+      getCart();
+    } catch (error) {
+      console.log(error);
+    }
     setCartItems([]);
   };
 
