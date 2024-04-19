@@ -127,9 +127,13 @@ const TopNav = () => {
               className=" h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100 relative"
             >
               <CiShoppingCart className="text-3xl hover:cursor-pointer" />
-              <p className=" absolute w-4 h-4 bg-violet-700 text-slate-50 text-center flex justify-center items-center text-[10px] p-1 rounded-full top-[-5%] right-[2%]">
-                {cartItems.length}
-              </p>
+              {cartItems.length > 0 ? (
+                <p className=" absolute w-4 h-4 bg-violet-700 text-slate-50 text-center flex justify-center items-center text-[10px] p-1 rounded-full top-[-5%] right-[2%]">
+                  {cartItems.length}
+                </p>
+              ) : (
+                <></>
+              )}
             </Link>
             {status === "authenticated" ? (
               <>

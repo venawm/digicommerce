@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
 import Product from "@/models/product";
 import Order from "@/models/order";
-import Cart from "@/models/cart";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
@@ -33,7 +32,6 @@ export async function POST(req) {
         // decrement stock, gather product ids
         const cartItems = JSON.parse(chargeSucceeded.metadata.cartItems);
         const productIds = cartItems.map((item) => item._id);
-        console.log(productIds);
 
         // fetch all products in one query
         const products = await Product.find({ _id: { $in: productIds } });
@@ -73,6 +71,7 @@ export async function POST(req) {
           product.stock = product.stock - cartItem.quantity;
           await product.save();
         }
+
         return NextResponse.json({ ok: true });
     }
   } catch (err) {

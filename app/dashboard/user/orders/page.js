@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
@@ -26,6 +28,22 @@ export default function UserOrders() {
     }
   };
 
+  const formatDate = (date) => {
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return date.toLocaleDateString(undefined, options);
+  };
+
+  const addDays = (date, days) => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  };
+
   const handleCancelOrder = async (orderId) => {
     try {
       const response = await fetch(
@@ -42,6 +60,7 @@ export default function UserOrders() {
         fetchOrders();
       }
       setOrders(data);
+      // window.location.reload();
     } catch (err) {
       console.log(err);
       toast.error("Order cancellation failed. Try again.");
@@ -58,86 +77,82 @@ export default function UserOrders() {
 
   return (
     <div className="container mx-auto py-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {orders.map((order) => (
-          <div
-            key={order._id}
-            className="bg-white rounded-lg shadow-lg overflow-hidden"
-          >
-            <div className="p-6">
-              <h4 className="text-lg font-semibold mb-4">Order Details</h4>
-              <ul className="divide-y divide-gray-200">
-                <li className="py-2">
-                  <span className="font-bold">Charge ID:</span> {order.chargeId}
-                </li>
-                <li className="py-2">
-                  <span className="font-bold">Created:</span>{" "}
-                  {new Date(order.createdAt).toLocaleDateString()}
-                </li>
-                <li className="py-2">
-                  <span className="font-bold">Payment Intent:</span>{" "}
-                  {order.payment_intent}
-                </li>
-                <li className="py-2">
-                  <span className="font-bold">Refunded:</span>{" "}
-                  {order.refunded ? "Yes" : "No"}
-                </li>
-                <li className="py-2">
-                  <span className="font-bold">Status:</span> {order.status}
-                </li>
-                <li className="py-2">
-                  <span className="font-bold">Total Charged:</span> $
-                  {(order.amount_captured / 100).toFixed(2)} {order.currency}
-                </li>
-              </ul>
-            </div>
-            <div className="p-6">
-              <h4 className="text-lg font-semibold mb-4">Shipping Address</h4>
-              <p>
-                {order.shipping.address.line1}
-                {order.shipping.address.line2 &&
-                  `, ${order.shipping.address.line2}`}
-              </p>
-              <p>
-                {order.shipping.address.city}, {order.shipping.address.state},{" "}
-                {order.shipping.address.postal_code}
-              </p>
-              <p>{order.shipping.address.country}</p>
-            </div>
-            <div className="p-6">
-              <h4 className="text-lg font-semibold mb-4">Ordered Products</h4>
-              <ul>
-                {order.cartItems.map((product) => (
-                  <li key={product._id}>
-                    <span
-                      className="text-blue-500 cursor-pointer"
-                      onClick={() => router.push(`/shop/${product.slug}`)}
+      <div className="flex flex-col gap-4">
+        {orders?.length > 0 &&
+          orders.map((order) => (
+            <div
+              key={order._id}
+              className="bg-white rounded-md  border border-slate-200 overflow-hidden text-sm"
+            >
+              <div className=" p-2 border-b border-slate-100 flex justify-between">
+                <div>
+                  <p>
+                    Order{" "}
+                    <Link href={"/djdj"} className=" text-violet-700">
+                      #{order._id}
+                    </Link>
+                  </p>
+                  <p className="text-slate-300">
+                    Placed on {formatDate(new Date(order.createdAt))}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-red-500 font-semibold cursor-pointer ml-4">
+                    <td>
+                      {order?.delivery_status === "Cancelled" ? (
+                        <>Cancelled</>
+                      ) : (
+                        <></>
+                      )}
+                      {order?.delivery_status === "Not Processed" &&
+                        !order.refunded && (
+                          <>
+                            <br />
+                            <span
+                              className="text-danger pointer"
+                              onClick={() => handleCancelOrder(order?._id)}
+                            >
+                              Cancel the order
+                            </span>
+                          </>
+                        )}
+                    </td>
+                  </span>
+                </div>
+              </div>
+              <div className="p-8 ">
+                {" "}
+                <ul className="flex flex-col gap-4">
+                  {order.cartItems.map((product) => (
+                    <li
+                      key={product._id}
+                      className="flex gap-2 items-center justify-between "
                     >
-                      {product.quantity} x {product.title} - $
-                      {(product.price * product.quantity).toFixed(2)}{" "}
-                      {order.currency}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+                      <div className="flex gap-2 items-center min-w-60 max-w-60">
+                        <Image src={product.image} width={60} height={40} />
+                        <span
+                          className="text-slate-800 font-semibold  cursor-pointer "
+                          onClick={() => router.push(`/shop/${product.slug}`)}
+                        >
+                          {product.title}
+                        </span>
+                      </div>
+                      <span className="bg-slate-200 px-2 text-sm rounded-lg text-slate-700">
+                        Qty:{product.quantity}
+                      </span>
+                      <span className="bg-slate-200 px-2 rounded-lg  text-sm text-slate-700">
+                        {order.delivery_status}
+                      </span>
+                      <span className=" font-semibold text-slate-600 px-2 rounded-lg  text-sm ">
+                        Estimated Delivery:{" "}
+                        {formatDate(addDays(new Date(order.createdAt), 5))}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="p-6">
-              <h4 className="text-lg font-semibold mb-4">Delivery Status</h4>
-              <p>
-                {order.delivery_status}
-                {order.delivery_status === "Not Processed" &&
-                  !order.refunded && (
-                    <span
-                      className="text-red-500 cursor-pointer ml-4"
-                      onClick={() => handleCancelOrder(order._id)}
-                    >
-                      Cancel the order
-                    </span>
-                  )}
-              </p>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
