@@ -88,6 +88,21 @@ const AdminNav = ({ dashboardItem, setDashboardItem }) => {
                 <span className="ms-3">Products</span>
               </p>
             </li>
+            <li>
+              <p
+                className={`flex items-center p-2 rounded-md hover:bg-white hover:text-slate-600 hover:cursor-pointer ${
+                  dashboardItem === "5"
+                    ? "text-slate-600 bg-white "
+                    : " text-white"
+                }`}
+                onClick={() => {
+                  setDashboardItem("5");
+                }}
+              >
+                <MdOutlineProductionQuantityLimits className="text-2xl " />
+                <span className="ms-3">Orders</span>
+              </p>
+            </li>
           </ul>
         </div>
       </aside>

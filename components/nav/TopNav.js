@@ -84,13 +84,13 @@ const TopNav = () => {
         <div className=" max-w-screen-2xl mx-auto px-4 flex items-center h-full justify-between">
           <Link
             className="text-3xl font-bold  lg:flex md:flex xsm:hidden text-slate-800"
-            href="/shop"
+            href="/"
           >
             Digicommerce
           </Link>
           <Link
             className="text-3xl font-bold lg:hidden md:hidden xsm:flex"
-            href="/shop"
+            href="/"
           >
             D
           </Link>

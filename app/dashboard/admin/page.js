@@ -6,6 +6,7 @@ import Tag from "@/components/admin/dashboard/Tag";
 import CreateProduct from "@/components/admin/dashboard/CreateProduct";
 import Products from "@/components/admin/dashboard/Products";
 import { useProduct } from "@/context/product";
+import Orders from "@/components/admin/dashboard/Orders";
 
 const page = () => {
   const [dashboardItem, setDashboardItem] = useState("0");
@@ -34,6 +35,8 @@ const page = () => {
       return <CreateProduct />;
     } else if (dashboardItem === "4") {
       return <Products setDashboardItem={setDashboardItem} />;
+    } else if (dashboardItem === "5") {
+      return <Orders />;
     }
   };
   useEffect(() => {

@@ -50,7 +50,7 @@ const Rating = ({ product }) => {
   const submitRating = async () => {
     if (status !== "authenticated") {
       toast.error("You must be logged in to leave a review");
-      router.push(`/login/callbackUrl=${pathname}`);
+      router.push(`/login?callbackUrl=${pathname}`);
       return;
     }
     try {

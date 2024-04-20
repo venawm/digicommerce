@@ -196,6 +196,18 @@ export const ProductProvider = ({ children }) => {
         toast.error(data.error);
       } else {
         toast.success("Product Created");
+        setUpdatingProduct(null);
+        setProduct({
+          title: "",
+          price: "",
+          color: "",
+          brand: "",
+          stock: "",
+          category: null,
+          description: "",
+          tags: [],
+          images: [],
+        });
       }
     } catch (error) {
       console.log(error);

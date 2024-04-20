@@ -2,8 +2,15 @@
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/cart";
 import { BiShoppingBag } from "react-icons/bi";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function AddToCart({ product }) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const { data, status } = useSession();
   const { addToCart, updateQuantity, removeFromCart, cartItems } = useCart();
 
   // find the product in cartItems if it exist
@@ -20,6 +27,12 @@ export default function AddToCart({ product }) {
 
   const handleIncrement = (e) => {
     e.stopPropagation();
+    if (status !== "authenticated") {
+      toast.error("Please login before adding items to the cart");
+      router.push(`/login?callbackUrl=${pathname}`);
+      return;
+    }
+
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
     updateQuantity(newQuantity, product);
@@ -27,6 +40,12 @@ export default function AddToCart({ product }) {
 
   const handleDecrement = (e) => {
     e.stopPropagation();
+    if (status !== "authenticated") {
+      toast.error("You must be logged in to leave a review");
+      router.push(`/login?callbackUrl=${pathname}`);
+      return;
+    }
+
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
@@ -39,6 +58,12 @@ export default function AddToCart({ product }) {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
+    if (status !== "authenticated") {
+      toast.error("You must be logged in to leave a review");
+      router.push(`/login?callbackUrl=${pathname}`);
+      return;
+    }
+
     addToCart(product, quantity);
   };
 
