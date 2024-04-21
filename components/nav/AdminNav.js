@@ -3,6 +3,8 @@ import Link from "next/link";
 import { RxDashboard } from "react-icons/rx";
 import { TbCategoryPlus } from "react-icons/tb";
 import { LiaTagSolid } from "react-icons/lia";
+import { MdOutlineCreate } from "react-icons/md";
+import { CiBoxes } from "react-icons/ci";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 
 const AdminNav = ({ dashboardItem, setDashboardItem }) => {
@@ -69,7 +71,7 @@ const AdminNav = ({ dashboardItem, setDashboardItem }) => {
                   setDashboardItem("3");
                 }}
               >
-                <LiaTagSolid className="text-2xl " />
+                <MdOutlineCreate className="text-2xl " />
                 <span className="ms-3">Create Products</span>
               </p>
             </li>
@@ -84,7 +86,7 @@ const AdminNav = ({ dashboardItem, setDashboardItem }) => {
                   setDashboardItem("4");
                 }}
               >
-                <MdOutlineProductionQuantityLimits className="text-2xl " />
+                <CiBoxes className="text-2xl " />
                 <span className="ms-3">Products</span>
               </p>
             </li>

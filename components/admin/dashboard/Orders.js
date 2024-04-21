@@ -128,9 +128,7 @@ const Orders = () => {
                             <span
                               className="text-danger pointer"
                               onClick={() => handleCancelOrder(order?._id)}
-                            >
-                              Cancel the order
-                            </span>
+                            ></span>
                           </>
                         )}
                     </td>
@@ -175,7 +173,7 @@ const Orders = () => {
                         <option value="Not Processed">Not Processed</option>
                         <option value="Processing">Processing</option>
                         <option value="Dispatched">Dispatched</option>
-                        {order?.refunded && (
+                        {order?.delivery_status === "Cancelled" && (
                           <option value="Cancelled">Cancelled</option>
                         )}
                         <option value="Delivered">Delivered</option>

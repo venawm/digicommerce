@@ -47,7 +47,7 @@ export async function POST(req) {
       },
       shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE }],
       shipping_address_collection: {
-        allowed_countries: ["AU"],
+        allowed_countries: ["IN"],
       },
       discounts: [{ coupon: couponCode }],
       customer_email: user.email,

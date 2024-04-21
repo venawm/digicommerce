@@ -32,13 +32,13 @@ const StepTwo = ({ onNextStep, onPrevStep }) => {
               value={data.user.email}
               disabled
             />
-            <input
+            {/* <input
               type="email"
               className="border bg-violet-50 py-2 px-4 focus:outline-none focus:border-primary"
               placeholder="Email"
               value={data.user.email}
               disabled
-            />
+            /> */}
           </div>
           <div>
             <OrderSummary />

@@ -41,7 +41,7 @@ export default function AddToCart({ product }) {
   const handleDecrement = (e) => {
     e.stopPropagation();
     if (status !== "authenticated") {
-      toast.error("You must be logged in to leave a review");
+      toast.error("Please login before adding items to the cart");
       router.push(`/login?callbackUrl=${pathname}`);
       return;
     }
@@ -59,7 +59,7 @@ export default function AddToCart({ product }) {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     if (status !== "authenticated") {
-      toast.error("You must be logged in to leave a review");
+      toast.error("Please login before adding items to the cart");
       router.push(`/login?callbackUrl=${pathname}`);
       return;
     }

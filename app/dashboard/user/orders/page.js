@@ -88,7 +88,10 @@ export default function UserOrders() {
                 <div>
                   <p>
                     Order{" "}
-                    <Link href={"/djdj"} className=" text-violet-700">
+                    <Link
+                      href={`${order.receipt_url}`}
+                      className=" text-violet-700"
+                    >
                       #{order._id}
                     </Link>
                   </p>

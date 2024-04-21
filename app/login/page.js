@@ -22,14 +22,14 @@ const Login = () => {
 
     if (result?.error) {
       toast.error(result?.error);
-      setLoading(false);
+      `setLoading(false);`;
     } else {
       toast.success("Logged in sucessfully");
       router.push(callbackUrl);
     }
 
     try {
-      setLoading(true);
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
