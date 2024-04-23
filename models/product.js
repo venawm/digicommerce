@@ -4,16 +4,6 @@ import Category from "./categories";
 import Tag from "./tag";
 import User from "./user";
 
-// const likeSchema = new mongoose.Schema(
-//   {
-//     user: {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "User",
-//     },
-//   },
-//   { timestamps: true }
-// );
-
 const ratingSchema = new mongoose.Schema(
   {
     rating: {
@@ -32,6 +22,22 @@ const ratingSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+const bidSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 const productSchema = new mongoose.Schema(
   {
@@ -111,6 +117,34 @@ const productSchema = new mongoose.Schema(
       },
     ],
     ratings: [ratingSchema],
+
+    // Bidding fields
+    bid: {
+      type: Boolean,
+      default: false,
+    },
+    bids: [bidSchema],
+    bidEndTime: {
+      type: Date,
+    },
+    bidStatus: {
+      type: String,
+      enum: ["open", "closed", "expired"],
+      default: "open",
+    },
+    minimumBidIncrement: {
+      type: Number,
+      default: 10,
+    },
+    winner: {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      amount: {
+        type: Number,
+      },
+    },
   },
   { timestamps: true }
 );

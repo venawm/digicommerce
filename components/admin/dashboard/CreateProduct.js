@@ -1,6 +1,6 @@
 "Use Client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useProduct } from "@/context/product";
 import { useCategory } from "@/context/category";
@@ -8,6 +8,8 @@ import { useTag } from "@/context/tag";
 import { ImCross } from "react-icons/im";
 import { FaFileUpload } from "react-icons/fa";
 import toast from "react-hot-toast";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CreateProduct = () => {
   const {
@@ -25,6 +27,17 @@ const CreateProduct = () => {
   } = useProduct();
   const { categories, fetchCategory } = useCategory();
   const { tags, fetchTags } = useTag();
+  const [isBidding, setIsBidding] = useState(false); // State to manage bidding status
+  const [bidEndDate, setBidEndDate] = useState(""); // State to manage bid end date
+  const [minBidAmount, setMinBidAmount] = useState(""); // State to manage minimum bid amount
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const dateChange = (date) => {
+    setSelectedDate(date);
+    const formattedDate = new Date(date).toISOString();
+    console.log(formattedDate);
+    setProduct({ ...product, bidEndTime: formattedDate });
+  };
 
   const clearProduct = () => {
     setUpdatingProduct(null);
@@ -71,6 +84,7 @@ const CreateProduct = () => {
               : setProduct({ ...product, title: e.target.value });
           }}
         />
+
         <input
           className="border rounded-lg border-slate-300 py-2 px-4 focus:outline-none focus:border-primary w-2/3"
           type="number"
@@ -164,6 +178,36 @@ const CreateProduct = () => {
             );
           })}
         </select>
+        {/* Bidding button */}
+
+        <button
+          className="bg-slate-700 text-white font-bold py-2 px-4 rounded-full hover:bg-primary-dark w-2/3"
+          onClick={() => {
+            setIsBidding(!isBidding);
+            setProduct({ ...product, bid: !isBidding });
+          }}
+        >
+          Enable Bidding
+        </button>
+
+        {/* Bidding section */}
+        {isBidding && (
+          <div>
+            <label>Bid End Time:</label>
+
+            <ReactDatePicker selected={selectedDate} onChange={dateChange} />
+            <input
+              type="number"
+              className="border rounded-lg border-slate-300 py-2 px-4 focus:outline-none focus:border-primary w-2/3"
+              placeholder="Enter minimum bid amount"
+              value={minBidAmount}
+              onChange={(e) => {
+                setMinBidAmount(e.target.value);
+                setProduct({ ...product, minimumBidIncrement: e.target.value });
+              }}
+            />
+          </div>
+        )}
         <textarea
           className="block p-2.5 w-2/3 text-sm text-slate-800 bg-gray-50 rounded-lg border border-gray-300 "
           cols={10}
