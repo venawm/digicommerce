@@ -13,6 +13,7 @@ export async function GET(req) {
   // initialize an empty filter object
   const filter = {};
   // apply filters based on query params
+  // apply filters based on query params
   if (category) {
     filter.category = category;
   }
@@ -28,6 +29,9 @@ export async function GET(req) {
       $lte: maxPrice,
     };
   }
+  // Add filter for bid field
+  filter.bid = { $exists: false, $ne: true };
+
   try {
     // determine the current page and calculate the skip value for
 

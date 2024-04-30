@@ -15,9 +15,7 @@ export async function GET(req) {
     const skip = (currentPage - 1) * pageSize;
     const totalProducts = await Product.countDocuments({});
 
-    const products = await Product.find({
-      $or: [{ bid: { $exists: false } }, { bid: { $ne: true } }],
-    })
+    const products = await Product.find({ bid: true })
       .populate("category", "name slug")
       .populate("tags", "name slug")
       .skip(skip)

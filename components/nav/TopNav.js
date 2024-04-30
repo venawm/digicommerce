@@ -9,6 +9,7 @@ import { CiSearch, CiShoppingCart, CiUser } from "react-icons/ci";
 import { FiMenu } from "react-icons/fi";
 import { FaUser } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { CiDollar } from "react-icons/ci";
 import { useProduct } from "@/context/product";
 import { useCart } from "@/context/cart";
 
@@ -122,6 +123,15 @@ const TopNav = () => {
             </div>
           </form>
           <ul className="hidden lg:inline-flex gap-4 items-center text-slate-800">
+            <Link
+              href={"/auctions"}
+              className=" h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100 relative"
+            >
+              <CiDollar className="text-3xl hover:cursor-pointer stroke-0" />
+              <p className=" absolute  h-4 bg-violet-700 text-slate-50 text-center flex justify-center items-center text-[10px] p-1 rounded-full top-[-5%] right-[-40%]">
+                Auction
+              </p>
+            </Link>
             <Link
               href={"/cart"}
               className=" h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100 relative"
