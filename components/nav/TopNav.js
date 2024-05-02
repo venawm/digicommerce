@@ -124,7 +124,7 @@ const TopNav = () => {
           </form>
           <ul className="hidden lg:inline-flex gap-4 items-center text-slate-800">
             <Link
-              href={"/auctions"}
+              href={"/auction"}
               className=" h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100 relative"
             >
               <CiDollar className="text-3xl hover:cursor-pointer stroke-0" />

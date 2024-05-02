@@ -4,7 +4,7 @@ import { createContext, useState, useEffect, useContext } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export const auctionContext = createContext();
+export const AuctionContext = createContext();
 
 export const AuctionProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
@@ -35,4 +35,16 @@ export const AuctionProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  return (
+    <AuctionContext.Provider value={{ fetchProducts, products }}>
+      {children}
+    </AuctionContext.Provider>
+  );
 };
+
+export const useAuction = () => useContext(AuctionContext);

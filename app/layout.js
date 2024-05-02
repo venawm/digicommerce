@@ -8,6 +8,7 @@ import { CategoryProvider } from "@/context/category";
 import { TagProvider } from "@/context/tag";
 import { ProductProvider } from "@/context/product";
 import { CartProvider } from "@/context/cart";
+import { AuctionProvider } from "@/context/auction";
 
 export const metadata = {
   title: "Digicommerce",
@@ -18,19 +19,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <SessionProvider>
-        <CategoryProvider>
-          <TagProvider>
-            <CartProvider>
-              <ProductProvider>
-                <body>
-                  <TopNav />
-                  <Toaster position="top-center" />
-                  <div className="xsm:px-6 lg:px-10 mt-20">{children}</div>
-                </body>
-              </ProductProvider>
-            </CartProvider>
-          </TagProvider>
-        </CategoryProvider>
+        <AuctionProvider>
+          <CategoryProvider>
+            <TagProvider>
+              <CartProvider>
+                <ProductProvider>
+                  <body>
+                    <TopNav />
+                    <Toaster position="top-center" />
+                    <div className="xsm:px-6 lg:px-10 mt-20">{children}</div>
+                  </body>
+                </ProductProvider>
+              </CartProvider>
+            </TagProvider>
+          </CategoryProvider>
+        </AuctionProvider>
       </SessionProvider>
     </html>
   );
