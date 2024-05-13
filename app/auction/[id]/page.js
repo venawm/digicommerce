@@ -37,9 +37,6 @@ const page = async ({ params }) => {
       thumbnail: e.secure_url,
     };
   });
-
-  const plusMinuceButton =
-    "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
   return (
     <div>
       <section className="container flex-grow mx-auto max-w-[1200px] py-5 lg:grid lg:grid-cols-2 lg:py-10">
@@ -87,7 +84,7 @@ const page = async ({ params }) => {
           </p>
           <ProductLike product={product} />
           <p className="mt-4 text-4xl font-bold text-purple-700">
-            ${product.price}{" "}
+            ${product?.bids[product?.bids.length - 1].amount}
             <span className="text-xs text-gray-400 line-through">
               ${product?.previousPrice}
             </span>

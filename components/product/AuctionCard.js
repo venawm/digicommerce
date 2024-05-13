@@ -10,6 +10,7 @@ import { calculateAverage } from "@/utils/helper";
 import AddToCart from "./AddToCart";
 import CountdownTimer from "../auction/CountDown";
 import calculateRemainingTime from "@/utils/calculateRemainingTime";
+import { useAuction } from "@/context/auction";
 
 dayjs.extend(relativeTime);
 export default function ({ product }) {
@@ -46,7 +47,7 @@ export default function ({ product }) {
             {product?.title}
           </h2>
           <h2 className="font-bold text-xl text-slate-800 mb-2 ">
-            ${product?.price}
+            ${product.bids[product.bids.length - 1].amount}
           </h2>
         </div>
         <div>

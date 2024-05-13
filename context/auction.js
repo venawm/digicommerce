@@ -8,6 +8,7 @@ export const AuctionContext = createContext();
 
 export const AuctionProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+  const [price, setPrice] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
@@ -41,7 +42,9 @@ export const AuctionProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuctionContext.Provider value={{ fetchProducts, products }}>
+    <AuctionContext.Provider
+      value={{ fetchProducts, products, price, setPrice }}
+    >
       {children}
     </AuctionContext.Provider>
   );
