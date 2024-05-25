@@ -7,6 +7,7 @@ import CreateProduct from "@/components/admin/dashboard/CreateProduct";
 import Products from "@/components/admin/dashboard/Products";
 import { useProduct } from "@/context/product";
 import Orders from "@/components/admin/dashboard/Orders";
+import Dashboard from "@/components/admin/dashboard/Dashboard";
 
 const page = () => {
   const [dashboardItem, setDashboardItem] = useState("0");
@@ -26,7 +27,7 @@ const page = () => {
 
   const renderer = () => {
     if (dashboardItem === "0") {
-      return <h1>hel</h1>;
+      return <Dashboard />;
     } else if (dashboardItem === "1") {
       return <Category />;
     } else if (dashboardItem === "2") {

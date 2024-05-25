@@ -11,34 +11,28 @@ export async function POST(req) {
   const sig = req.headers.get("stripe-signature");
 
   try {
-    // construct the event using stripe sdk
+    // Construct the event using Stripe SDK
     const event = stripe.webhooks.constructEvent(
       _raw,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
-    // console.log('EVENT ======>', event )
 
-    // handle the event
+    // Handle the event
     switch (event.type) {
       case "charge.succeeded":
         const chargeSucceeded = event.data.object;
         const { id, ...rest } = chargeSucceeded;
-        // console.log(
-        //   "chargeSucceeded ===================================> ",
-        //   chargeSucceeded
-        // );
 
-        // decrement stock, gather product ids
+        // Decrement stock, gather product ids
         const cartItems = JSON.parse(chargeSucceeded.metadata.cartItems);
         const productIds = cartItems.map((item) => item._id);
 
-        // fetch all products in one query
+        // Fetch all products in one query
         const products = await Product.find({ _id: { $in: productIds } });
 
-        // create an object to quickly map product details by id
+        // Create an object to quickly map product details by id
         const productMap = {};
-
         products.forEach((product) => {
           productMap[product._id.toString()] = {
             _id: product._id,
@@ -49,13 +43,13 @@ export async function POST(req) {
           };
         });
 
-        // create cartItems with product details
+        // Create cartItems with product details
         const cartItemsWithProductDetails = cartItems.map((cartItem) => ({
           ...productMap[cartItem._id],
           quantity: cartItem.quantity,
         }));
 
-        // create order
+        // Create order
         const orderData = {
           ...rest,
           chargeId: id,
@@ -65,10 +59,11 @@ export async function POST(req) {
 
         await Order.create(orderData);
 
-        // decrement product stock
+        // Decrement product stock and increment product sold
         for (const cartItem of cartItems) {
           const product = await Product.findById(cartItem._id);
-          product.stock = product.stock - cartItem.quantity;
+          product.stock -= cartItem.quantity;
+          product.sold = (product.sold || 0) + cartItem.quantity;
           await product.save();
         }
 
