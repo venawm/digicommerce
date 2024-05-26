@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CiUser } from "react-icons/ci";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import { RiProductHuntLine } from "react-icons/ri";
 import {
   BarChart,
   Bar,
@@ -71,10 +72,21 @@ async function getProductChartData() {
   }
 }
 
+const CustomizedAxisTick = ({ x, y, payload }) => {
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={16} textAnchor="middle" fill="#666" fontSize={12}>
+        {payload.value}
+      </text>
+    </g>
+  );
+};
+
 const Dashboard = () => {
   const [userCount, setUserCount] = useState(0);
   const [lifetimeSales, setLifetimeSales] = useState(0);
   const [productChartData, setProductChartData] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,6 +109,20 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const countTotalStock = () => {
+      let sum = 0;
+      productChartData?.products?.forEach((e) => {
+        sum += e.stock;
+      });
+      return sum;
+    };
+
+    if (productChartData.products) {
+      setTotalProducts(countTotalStock());
+    }
+  }, [productChartData]);
+
   return (
     <div>
       <div className="flex justify-evenly">
@@ -115,12 +141,20 @@ const Dashboard = () => {
           </div>
           <p>Lifetime Sales</p>
         </div>
+        <div className="border border-slate-100 rounded-md shadow-sm flex flex-col justify-center items-center font-semibold text-2xl p-16">
+          <div className="flex justify-center items-center">
+            <RiProductHuntLine className="text-3xl" />
+            <p>{totalProducts}</p>
+            {/* Assuming the amount is in cents */}
+          </div>
+          <p>Total Products</p>
+        </div>
       </div>
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Product Sales Chart</h2>
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={productChartData.products}>
-            <XAxis dataKey="title" />
+            <XAxis dataKey="title" tick={<CustomizedAxisTick />} />
             <YAxis />
             <Tooltip />
             <Bar dataKey="sold" fill="#8884d8" />

@@ -84,7 +84,8 @@ const page = async ({ params }) => {
           </p>
           <ProductLike product={product} />
           <p className="mt-4 text-4xl font-bold text-purple-700">
-            ${product?.bids[product?.bids.length - 1].amount}
+            {product?.bids?.[product?.bids?.length - 1]?.amount ??
+              product?.price}
             <span className="text-xs text-gray-400 line-through">
               ${product?.previousPrice}
             </span>

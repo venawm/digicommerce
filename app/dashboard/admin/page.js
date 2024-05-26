@@ -8,6 +8,7 @@ import Products from "@/components/admin/dashboard/Products";
 import { useProduct } from "@/context/product";
 import Orders from "@/components/admin/dashboard/Orders";
 import Dashboard from "@/components/admin/dashboard/Dashboard";
+import Admin from "@/components/admin/dashboard/Admin";
 
 const page = () => {
   const [dashboardItem, setDashboardItem] = useState("0");
@@ -38,6 +39,8 @@ const page = () => {
       return <Products setDashboardItem={setDashboardItem} />;
     } else if (dashboardItem === "5") {
       return <Orders />;
+    } else if (dashboardItem === "6") {
+      return <Admin />;
     }
   };
   useEffect(() => {

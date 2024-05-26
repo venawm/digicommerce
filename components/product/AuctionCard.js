@@ -17,6 +17,7 @@ export default function ({ product }) {
   const router = useRouter();
   const average = calculateAverage(product?.ratings);
   const remainingTime = calculateRemainingTime(product.bidEndTime);
+  console.log(product);
   return (
     <div
       onClick={() => {
@@ -46,8 +47,10 @@ export default function ({ product }) {
           <h2 className=" text-lg font-semibold text-slate-800 mb-2 h-12">
             {product?.title}
           </h2>
-          <h2 className="font-bold text-xl text-slate-800 mb-2 ">
-            ${product.bids[product.bids.length - 1].amount}
+          <h2 className="font-bold text-xl text-slate-800 mb-2">
+            $
+            {product?.bids?.[product?.bids?.length - 1]?.amount ??
+              product?.price}
           </h2>
         </div>
         <div>
@@ -87,9 +90,6 @@ export default function ({ product }) {
             </p>
           </div>
         </div>
-      </div>
-      <div className="text-center text-xl font-semibold text-violet-700 mb-4">
-        0 Total Bids
       </div>
     </div>
   );

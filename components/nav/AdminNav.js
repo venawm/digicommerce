@@ -6,6 +6,7 @@ import { LiaTagSolid } from "react-icons/lia";
 import { MdOutlineCreate } from "react-icons/md";
 import { CiBoxes } from "react-icons/ci";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 const AdminNav = ({ dashboardItem, setDashboardItem }) => {
   console.log(dashboardItem);
@@ -103,6 +104,21 @@ const AdminNav = ({ dashboardItem, setDashboardItem }) => {
               >
                 <MdOutlineProductionQuantityLimits className="text-2xl " />
                 <span className="ms-3">Orders</span>
+              </p>
+            </li>
+            <li>
+              <p
+                className={`flex items-center p-2 rounded-md hover:bg-white hover:text-slate-600 hover:cursor-pointer ${
+                  dashboardItem === "5"
+                    ? "text-slate-600 bg-white "
+                    : " text-white"
+                }`}
+                onClick={() => {
+                  setDashboardItem("6");
+                }}
+              >
+                <MdOutlineAdminPanelSettings className="text-2xl " />
+                <span className="ms-3">Admins</span>
               </p>
             </li>
           </ul>

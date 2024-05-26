@@ -7,10 +7,10 @@ import { useSession } from "next-auth/react";
 import AuctionTable from "./AuctionTable";
 
 const AuctionButton = ({ product }) => {
-  const { data, status, update } = useSession();
+  const { data, status } = useSession();
   const [bid, setBid] = useState(0);
   const [bids, setBids] = useState([]);
-  const [highest, setHighest] = useState();
+  const [highest, setHighest] = useState(product.amount);
 
   const fetchBid = async () => {
     const response = await fetch(
@@ -26,14 +26,17 @@ const AuctionButton = ({ product }) => {
     const arr = data.bids.sort((a, b) => b.amount - a.amount);
     console.log(arr);
 
-    console.log(arr);
     setBids(arr);
-    setHighest(arr[0].amount);
+    if (arr.length > 0) {
+      setHighest(arr[0]?.amount ?? product.amount);
+    } else {
+      setHighest(product.price);
+    }
 
-    if (bid < arr[0].amount) {
+    if (bid < arr[0]?.amount) {
       setBid((prevBid) => {
-        if (prevBid < arr[0].amount) {
-          return arr[0].amount;
+        if (prevBid < arr[0]?.amount) {
+          return arr[0]?.amount;
         }
         return prevBid;
       });
@@ -66,16 +69,16 @@ const AuctionButton = ({ product }) => {
       },
     });
 
-    const res = response.json();
+    const res = await response.json();
     if (!response.ok) {
       toast.error("Error placing bid please try again later");
       return;
     }
-    toast.success("Bid sucessfully placed");
+    toast.success("Bid successfully placed");
+    fetchBid(); // Refetch bids after placing a new bid
   };
 
   const handleIncrement = () => {
-    setPrice(highest);
     if (!status) {
       toast.error("Please Login to bid");
       return;
@@ -88,7 +91,7 @@ const AuctionButton = ({ product }) => {
       toast.error("Please Login to bid");
       return;
     }
-    if (bid === highest) {
+    if (bid <= highest) {
       toast.error(
         "Attempting to reduce the price below the highest bid is not allowed."
       );
@@ -99,8 +102,9 @@ const AuctionButton = ({ product }) => {
 
   return (
     <div className="w-[50%] mt-4 flex flex-col gap-4">
+      <h2 className="font-bold text-xl text-slate-800 mb-2">${highest}</h2>
       <div
-        className="text-violet-700 border border-violet-700 px-3 py-1 rounded-md flex justify-evenly items-center gap-2  h-10 w-full text-xl font-semibold"
+        className="text-violet-700 border border-violet-700 px-3 py-1 rounded-md flex justify-evenly items-center gap-2 h-10 w-full text-xl font-semibold"
         onClick={(e) => {
           e.stopPropagation();
           handleDecrement();
@@ -112,7 +116,7 @@ const AuctionButton = ({ product }) => {
 
         <input
           type="number"
-          className=" text-violet-70-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-center w-[50%]"
+          className="text-violet-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-center w-[50%]"
           value={bid}
           disabled
           onChange={(e) => {}}
@@ -136,12 +140,12 @@ const AuctionButton = ({ product }) => {
         }}
       >
         <RiAuctionFill
-          className="text-4xl "
+          className="text-4xl"
           onClick={() => {
             placeBid();
           }}
         />
-        <p className="text-xl ">Place Bid</p>
+        <p className="text-xl">Place Bid</p>
       </button>
       <AuctionTable data={bids} />
     </div>
